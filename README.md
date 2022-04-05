@@ -1,2 +1,2 @@
 # projekt-opb
-Projektna naloga pri predmetu Osnove podatkovnih baz
+Projektna naloga pri predmetu Osnove podatkovnih baz.
