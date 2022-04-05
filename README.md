@@ -13,7 +13,7 @@ in si izbere ustreznega.
 
 ## ER diagram
 
-
+![instrukcije-opb2](https://user-images.githubusercontent.com/64911943/161804029-34a84498-e0bc-4749-b6f5-505eea8f08db.png)
 
 
 ## Podatki
