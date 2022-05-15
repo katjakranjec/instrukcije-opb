@@ -14,6 +14,14 @@ CREATE TABLE oseba (
     geslo TEXT NOT NULL
 );
 
+-- CREATE TABLE oseba (
+-- id INTEGER PRIMARY KEY UNIQUE,
+-- ime TEXT NOT NULL,
+-- priimek TEXT NOT NULL,
+-- uporabnisko_ime TEXT NOT NULL UNIQUE,
+-- geslo TEXT NOT NULL
+-- );
+
 CREATE TABLE predmet (
     id_osebe INTEGER REFERENCES oseba(id),
     predmet TEXT NOT NULL
