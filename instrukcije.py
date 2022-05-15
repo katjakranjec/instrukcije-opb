@@ -38,7 +38,12 @@ def nastaviSporocilo(sporocilo = None):
         response.set_cookie('sporocilo', sporocilo, path="/", secret=skrivnost)
     return staro
 
-
+def geslo_hash(s):
+    """Vrni SHA-512 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
+       kodirana s to funkcijo."""
+    h = hashlib.sha512()
+    h.update(s.encode('utf-8'))
+    return h.hexdigest()
 
 #_____________________________________________________________
 
@@ -55,7 +60,7 @@ def prijava_get():
 @post('/prijava')
 def prijava_post():
     username = request.forms.username
-    geslo = request.forms.password
+    geslo = geslo_hash(request.forms.password)
     if username is None or geslo is None:
         nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
         redirect(url('prijava_get'))
