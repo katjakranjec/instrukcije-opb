@@ -22,6 +22,16 @@ CREATE TABLE oseba (
 -- geslo TEXT NOT NULL
 -- );
 
+-- DROP TABLE IF EXISTS oseba;
+-- CREATE TABLE oseba (
+--     ime TEXT NOT NULL,
+--     priimek TEXT NOT NULL,
+--     telefon TEXT NOT NULL,
+--     email TEXT NOT NULL UNIQUE,
+--     uporabnisko_ime TEXT NOT NULL PRIMARY KEY,
+--     geslo TEXT NOT NULL
+-- );
+
 CREATE TABLE predmet (
     id_osebe INTEGER REFERENCES oseba(id),
     predmet TEXT NOT NULL
