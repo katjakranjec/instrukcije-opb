@@ -49,7 +49,7 @@ def geslo_hash(s):
 
 @get('/')
 def index():
-    return 'Začenta stran, test. Dodava možnost prijave in registracije.'
+    return template(index.html, napaka=None)
 
 #_PRIJAVA______________________________________________
 
@@ -86,11 +86,11 @@ def prijava_post():
 def uporabnik():
     return 'Dela.'
 
-# # REGISTRACIJA
-# @get('/registracija')
-# def registracija_get():
-#     napaka = nastaviSporocilo()
-#     return template('registracija.html', napaka=napaka)
+# REGISTRACIJA
+@get('/registracija')
+def registracija_get():
+    napaka = nastaviSporocilo()
+    return template('registracija.html', napaka=napaka)
 
 # @post('/registracija')
 # def registracija_post():
