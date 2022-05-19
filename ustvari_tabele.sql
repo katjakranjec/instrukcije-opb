@@ -12,7 +12,18 @@ CREATE TABLE oseba (
     telefon TEXT NOT NULL,
     uporabnisko_ime TEXT NOT NULL UNIQUE,
     geslo TEXT NOT NULL
+    -- id_vloge INTEGER NOT NULL
 );
+
+
+
+-- CREATE TABLE vloga (
+--     id_vloge INTEGER PRIMARY KEY,
+--     vloga TEXT NOT NULL
+-- )
+
+
+
 
 -- CREATE TABLE oseba (
 -- id INTEGER PRIMARY KEY UNIQUE,
@@ -46,7 +57,10 @@ CREATE TABLE solanje (
 CREATE TABLE termin (
     instruktor INTEGER REFERENCES oseba(id),
     stranka INTEGER REFERENCES oseba(id),
-    predmet TEXT,
+    predmet TEXT, 
+    -- a bi imeli predmeti svojo tabelo in svoje id-je (ne to, ki je že, kdo uči
+    -- kateri predmet, ampak kao 1 - SLO, 2, MAT ... Al bi blo odveč? Da se ne bo 
+    -- dogajalo npr. SLO, Slovenščina ... )
     lokacija TEXT NOT NULL,
     ocena INTEGER,
     datum_in_ura DATE NOT NULL
