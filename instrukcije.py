@@ -89,18 +89,18 @@ def uporabnik():
 # REGISTRACIJA
 @get('/registracija')
 def registracija_get():
-    # napaka = nastaviSporocilo()
-    return template('registracija.html', napaka=None)
+    napaka = nastaviSporocilo()
+    return template('registracija.html', napaka=napaka)
 
 @post('/registracija')
 def registracija_post():
-    ime = request.forms.get('ime')
-    priimek = request.forms.get('priimek')
-    email = request.forms.get('email')
-    telefon = request.forms.get('telefon')
-    username = request.forms.get('username')
-    password = request.forms.get('password')
-    password2 = request.forms.get('password2')
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    email = request.forms.email
+    telefon = request.forms.telefon
+    username = request.forms.username
+    password = request.forms.password
+    password2 = request.forms.password2
 
     #preverimo, ce je izbrani username ze zaseden
     cur = baza.cursor()
