@@ -82,7 +82,7 @@ def prijava_post():
     response.set_cookie('username', username, path="/", secret=skrivnost)
 
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
-    cur.execute("SELECT vloga FROM oseba WHERE uporabnisko_ime = %s", (username, ))
+    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
     vloga, = cur.fetchone()
     print(vloga)
     if vloga == 'stranka':
@@ -137,8 +137,11 @@ def registracija_post():
 
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
-    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo, vloga) VALUES (%s, %s, %s, %s, %s, %s, 'stranka')", (ime, priimek, telefon, email, username, password))
-    baza.commit()  
+    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
+    print('lalaal')
+    baza.commit() 
+    cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'stranka')", (username,)) 
+    baza.commit()
     redirect(url('uporabnik'))
  
   
