@@ -137,7 +137,7 @@ def registracija_post():
 
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
-    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
+    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo, vloga) VALUES (%s, %s, %s, %s, %s, %s, 'stranka')", (ime, priimek, telefon, email, username, password))
     baza.commit()  
     redirect(url('uporabnik'))
  
