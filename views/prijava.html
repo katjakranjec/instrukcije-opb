@@ -1,20 +1,11 @@
-<html>
-<head>
-    <style type="text/css">
-        body {
-        font-family: Verdana
-        }
-        .neki {
-        font-weight: bold;
-        color: red
-        }
-    </style>
-</head>
+% rebase('base.html')
+
 <body>
 <form action="/prijava" method="post">
     <span class="neki">Uporabniško ime:</span> <input name="username" type="text" />
+    <br>
     <span class="neki">Geslo:</span> <input name="password" type="text" />
+    <br>
     <input value="Prijava" type="submit" />
 </form>
 </body>
-</html>
