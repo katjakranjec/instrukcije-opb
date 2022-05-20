@@ -69,6 +69,7 @@ CREATE TABLE termin (
 
     -- če že bi lahko bla tabela s kraticami pa predmeti pa je pol kratica primary key.
     -- id po številkah je pa čist odveč
+    -- ampak pomoje je tud to čist odveč string 'slovenscina' čist dobr dela
     lokacija TEXT NOT NULL,
     ocena INTEGER,
     datum_in_ura DATE NOT NULL
