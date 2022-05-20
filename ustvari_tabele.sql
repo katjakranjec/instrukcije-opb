@@ -11,8 +11,8 @@ CREATE TABLE oseba (
     email TEXT NOT NULL UNIQUE,
     telefon TEXT NOT NULL,
     uporabnisko_ime TEXT NOT NULL UNIQUE,
-    geslo TEXT NOT NULL
-    -- id_vloge INTEGER NOT NULL
+    geslo TEXT NOT NULL,
+    vloga TEXT NOT NULL
 );
 
 
@@ -33,15 +33,20 @@ CREATE TABLE oseba (
 -- geslo TEXT NOT NULL
 -- );
 
--- DROP TABLE IF EXISTS oseba;
--- CREATE TABLE oseba (
---     ime TEXT NOT NULL,
---     priimek TEXT NOT NULL,
---     telefon TEXT NOT NULL,
---     email TEXT NOT NULL UNIQUE,
---     uporabnisko_ime TEXT NOT NULL PRIMARY KEY,
---     geslo TEXT NOT NULL
--- );
+DROP TABLE IF EXISTS oseba;
+CREATE TABLE oseba (
+    ime TEXT NOT NULL,
+    priimek TEXT NOT NULL,
+    telefon TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    uporabnisko_ime TEXT NOT NULL PRIMARY KEY,
+    geslo TEXT NOT NULL,
+    vloga TEXT NOT NULL
+);
+
+--primer osebe z vlogo (na roko vnešen v bazo)
+INSERT INTO oseba VALUES ('Katja','Kranjec','123456789','katja@gmail.com','katjak','geslo','stranka');
+INSERT INTO oseba VALUES ('Manca','Strah','987654321','manca@gmail.com','mancast','geslo','instruktor');
 
 CREATE TABLE predmet (
     id_osebe INTEGER REFERENCES oseba(id),
@@ -61,6 +66,9 @@ CREATE TABLE termin (
     -- a bi imeli predmeti svojo tabelo in svoje id-je (ne to, ki je že, kdo uči
     -- kateri predmet, ampak kao 1 - SLO, 2, MAT ... Al bi blo odveč? Da se ne bo 
     -- dogajalo npr. SLO, Slovenščina ... )
+
+    -- če že bi lahko bla tabela s kraticami pa predmeti pa je pol kratica primary key.
+    -- id po številkah je pa čist odveč
     lokacija TEXT NOT NULL,
     ocena INTEGER,
     datum_in_ura DATE NOT NULL
