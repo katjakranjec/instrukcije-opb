@@ -82,8 +82,9 @@ CREATE TABLE termin (
     stranka TEXT REFERENCES oseba(uporabnisko_ime),
     predmet TEXT REFERENCES predmet(ime_predmeta),
     lokacija TEXT NOT NULL,
-    datum_in_ura DATETIME NOT NULL,
-    PRIMARY KEY (instruktor,datum_in_ura)
+    datum DATE NOT NULL,
+    ura TIME NOT NULL,
+    PRIMARY KEY (instruktor,datum,ura)
 );
 
 --primer osebe z vlogo (na roko vnešen v bazo)
