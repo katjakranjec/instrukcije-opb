@@ -80,11 +80,23 @@ def prijava_post():
         redirect(url('prijava_get'))
         return
     response.set_cookie('username', username, path="/", secret=skrivnost)
-    redirect(url('uporabnik'))
+
+    #preverimo vlogo in ustrezno preusmerimo na profilno stran
+    cur.execute("SELECT vloga FROM oseba WHERE uporabnisko_ime = %s", (username, ))
+    vloga, = cur.fetchone()
+    print(vloga)
+    if vloga == 'stranka':
+        redirect(url('uporabnik'))
+    if vloga == 'instruktor':
+        redirect(url('instruktor'))
 
 @get('/uporabnik') 
 def uporabnik():
-    return 'Dela.'
+    return 'Prijavljen kot uporabnik.'
+
+@get('/instruktor') 
+def instruktor():
+    return 'Prijavljen kot instruktor.'
 
 # REGISTRACIJA
 @get('/registracija')
