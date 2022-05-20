@@ -91,6 +91,12 @@ CREATE TABLE termin (
 INSERT INTO oseba VALUES ('Katja','Kranjec','123456789','katja@gmail.com','katjak','geslo');
 INSERT INTO oseba VALUES ('Manca','Strah','987654321','manca@gmail.com','mancast','geslo');
 
+INSERT INTO vloga VALUES ('stranka');
+INSERT INTO vloga VALUES ('instruktor');
+
+INSERT INTO vloga_osebe VALUES ('katjak','stranka');
+INSERT INTO vloga_osebe VALUES ('mancast','instruktor');
+
 -- CREATE TABLE termin (
 --     instruktor INTEGER REFERENCES oseba(id),
 --     stranka INTEGER REFERENCES oseba(id),
@@ -119,5 +125,5 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO mancast WITH GRANT OPTION;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost;
 
 GRANT INSERT ON oseba TO javnost;
-GRANT INSERT ON vloga TO javnost;
+GRANT INSERT ON vloga_osebe TO javnost;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO javnost;
