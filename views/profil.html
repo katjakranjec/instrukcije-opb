@@ -1,0 +1,29 @@
+% rebase('base.html')
+
+<body>
+    <h2>Moj profil</h2>
+    <table style="width:100%">
+        %for (ime, priimek, telefon, email, uporabnisko_ime) in oseba:
+            <tr>
+                <td>Ime</td>
+                <td>{{ime}}</td>
+            </tr>
+            <tr>
+                <td>Priimek</td>
+                <td>{{priimek}}</td>
+            </tr>
+            <tr>
+                <td>Telefon</td>
+                <td>{{telefon}}</td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td>{{email}}</td>
+            </tr>
+            <tr>
+                <td>Uporabniško ime</td>
+                <td>{{uporabnisko_ime}}</td>
+            </tr>
+        %end
+      </table>
+</body>

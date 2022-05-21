@@ -151,7 +151,7 @@ def odjava_get():
     redirect(url('index')) 
 
 #___________________________________________________________________________________________________
-# HOMEPAGE UPORABNIKA
+# STRANI UPORABNIKA
 
 @get('/uporabnik') 
 def uporabnik():
@@ -162,6 +162,15 @@ def uporabnik():
     cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka='{0}' ".format(username))
 
     return template('uporabnik.html', termini=cur)
+
+@get('/uporabnik/mojprofil')
+def mojprofil():
+    username = request.get_cookie('username', secret=skrivnost)
+    cur = baza.cursor()
+    print('do sem pride')
+    cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
+
+    return template('profil.html', oseba=cur)
 
 
 ######################################################################
