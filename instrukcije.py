@@ -186,7 +186,7 @@ def rezerviraj_post():
     if predmet != '':
         cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE predmet='{0}'".format(predmet))
     else:
-        cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin")
+        cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka IS NULL")
     return template('prosti_termini.html', podatki=cur)
 
 ######################################################################

@@ -109,6 +109,9 @@ INSERT INTO termin VALUES ('mancast','katjak','matematika','nekje','2022-05-23',
 INSERT INTO termin VALUES ('mancast','katjak','slovenščina','nekje drugje','2022-05-24','12:00:00');
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nek','2022-05-25','12:34:54');
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-26','12:34:00');
+INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','angleščina','nekje drugje','2022-05-24','13:00:00');
+INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek','2022-05-25','13:34:54');
+INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek drget','2022-05-26','17:34:00');
 
 
 -- CREATE TABLE termin (
