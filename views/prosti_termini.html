@@ -23,9 +23,9 @@
           <th>Datum</th>
           <th>Ura</th>
         </tr>
-        %for (instruktor, predmet, lokacija, datum, ura) in podatki:
+        %for (ime, priimek, predmet, lokacija, datum, ura) in podatki:
             <tr>
-                <td>{{instruktor}}</td>
+                <td>{{ime}} {{priimek}}</td>
                 <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>

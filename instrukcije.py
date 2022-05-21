@@ -155,10 +155,10 @@ def odjava_get():
 def uporabnik():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka='{0}' AND datum>NOW() ".format(username))
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum>NOW() ".format(username))
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka='{0}' AND datum<NOW() ".format(username))
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum<NOW() ".format(username))
     pre_termini=cur
     return template('uporabnik.html', rez_termini=rez_termini, pre_termini=pre_termini)
 
@@ -183,9 +183,9 @@ def rezerviraj_post():
     datum = request.forms.datum
     cur = baza.cursor()
     if predmet != '':
-        cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE predmet='{0}'".format(predmet))
+        cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE predmet='{0}' AND stranka IS NULL".format(predmet))
     else:
-        cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka IS NULL")
+        cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL")
     return template('prosti_termini.html', podatki=cur)
 
 #_________________________________________________________________________________________________

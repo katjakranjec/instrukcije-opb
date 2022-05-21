@@ -21,9 +21,9 @@
           <th>Datum</th>
           <th>Ura</th>
         </tr>
-        %for (instruktor, predmet, lokacija, datum, ura) in rez_termini:
+        %for (ime, priimek, predmet, lokacija, datum, ura) in rez_termini:
             <tr>
-                <td>{{instruktor}}</td>
+                <td>{{ime}} {{priimek}}</td>
                 <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>
@@ -45,9 +45,9 @@
           <th>Datum</th>
           <th>Ura</th>
         </tr>
-        %for (instruktor, predmet, lokacija, datum, ura) in pre_termini:
+        %for (ime, priimek, predmet, lokacija, datum, ura) in pre_termini:
             <tr>
-                <td>{{instruktor}}</td>
+                <td>{{ime}} {{priimek}}</td>
                 <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>
