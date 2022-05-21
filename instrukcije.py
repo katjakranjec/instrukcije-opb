@@ -17,7 +17,7 @@ psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
 import os
 import hashlib
 
-skrivnost="skrivnost"
+skrivnost="NaJsKrIvNoStNeJsAsKrIvNoSt"
 
 # privzete nastavitve
 SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
@@ -51,7 +51,8 @@ def geslo_hash(s):
 def index():
     return template('index.html', napaka=None)
 
-#_PRIJAVA______________________________________________
+#__________________________________________________________________________________________________
+# PRIJAVA
 
 @get('/prijava') 
 def prijava_get():
@@ -91,12 +92,9 @@ def prijava_post():
         redirect(url('instruktor'))
 
 
-
-@get('/instruktor') 
-def instruktor():
-    return 'Prijavljen kot instruktor.'
-
+#___________________________________________________________________________________________________________
 # REGISTRACIJA
+
 @get('/registracija')
 def registracija_get():
     napaka = nastaviSporocilo()
@@ -136,7 +134,7 @@ def registracija_post():
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
     cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
-    print('lalaal')
+    #print('lalaal')
     baza.commit() 
     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'stranka')", (username,)) 
     baza.commit()
@@ -181,7 +179,7 @@ def rezerviraj_get():
 @post('/uporabnik/rezerviraj')
 def rezerviraj_post():
     predmet = request.forms.predmet
-    print(predmet)
+    #print(predmet)
     datum = request.forms.datum
     cur = baza.cursor()
     if predmet != '':
@@ -189,6 +187,15 @@ def rezerviraj_post():
     else:
         cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka IS NULL")
     return template('prosti_termini.html', podatki=cur)
+
+#_________________________________________________________________________________________________
+# STRANI INŠTRUKTORJA
+
+@get('/instruktor') 
+def instruktor():
+    return 'Prijavljen kot instruktor.'
+
+
 
 ######################################################################
 # Glavni program
