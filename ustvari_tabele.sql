@@ -112,7 +112,8 @@ INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-
 INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','angleščina','nekje drugje','2022-05-24','13:00:00');
 INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek','2022-05-25','13:34:54');
 INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek drget','2022-05-26','17:34:00');
-
+INSERT INTO termin VALUES ('instruktor','katjak','matematika','nek','2022-04-25','12:34:54');
+INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-7','12:00:00');
 
 -- CREATE TABLE termin (
 --     instruktor INTEGER REFERENCES oseba(id),

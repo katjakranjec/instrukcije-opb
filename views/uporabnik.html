@@ -21,7 +21,31 @@
           <th>Datum</th>
           <th>Ura</th>
         </tr>
-        %for (instruktor, predmet, lokacija, datum, ura) in termini:
+        %for (instruktor, predmet, lokacija, datum, ura) in rez_termini:
+            <tr>
+                <td>{{instruktor}}</td>
+                <td>{{predmet}}</td>
+                <td>{{lokacija}}</td>
+                <td>{{datum}}</td>
+                <td>{{ura}}</td>
+            </tr>
+        %end
+      </table>
+
+    <form action='/uporabnik/rezerviraj' method='get'>
+        <button type='submit'>rezerviraj nov termin</button>
+    </form>
+    
+      <h2>Pretekli termini</h2>
+        <table style="width:100%">
+        <tr>
+          <th>Inštruktor</th>
+          <th>Predmet</th>
+          <th>Lokacija</th>
+          <th>Datum</th>
+          <th>Ura</th>
+        </tr>
+        %for (instruktor, predmet, lokacija, datum, ura) in pre_termini:
             <tr>
                 <td>{{instruktor}}</td>
                 <td>{{predmet}}</td>
@@ -32,8 +56,6 @@
         %end
       </table>
       
-    <form action='/uporabnik/rezerviraj' method='get'>
-        <button type='submit'>rezerviraj nov termin</button>
-    </form>
+
 
 </body>
