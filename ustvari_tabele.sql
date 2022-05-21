@@ -105,6 +105,8 @@ INSERT INTO letnik VALUES ('6. razred osnovne šole'), ('7. razred osnovne šole
 ('4. letnik gimnazije'), ('1. letnik srednje strokovne šole'), ('2. letnik srednje strokovne šole'),
 ('3. letnik srednje strokovne šole'), ('4. letnik srednje strokovne šole');
 
+-- a bi blo tukej mogoče smiselno ločit letnik pa šolo? 
+
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nekje','2022-05-23','12:34:54.1237');
 INSERT INTO termin VALUES ('mancast','katjak','slovenščina','nekje drugje','2022-05-24','12:00:00');
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nek','2022-05-25','12:34:54');

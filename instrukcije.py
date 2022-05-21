@@ -51,19 +51,19 @@ def geslo_hash(s):
 def index():
     return template('index.html', napaka=None)
 
-#_PRIJAVA______________________________________________
+#_PRIJAVA_STRANKE______________________________________________
 
-@get('/prijava') 
-def prijava_get():
-    return template('prijava.html', napaka=None)
+@get("/prijava_ucenec") 
+def prijava_ucenec_get():
+    return template('prijava_ucenec.html', napaka=None)
 
-@post('/prijava')
+@post("/prijava_ucenec")
 def prijava_post():
     username = request.forms.username
     geslo = request.forms.password
     if username is None or geslo is None:
         nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
-        redirect(url('prijava_get'))
+        redirect(url('prijava_ucenec_get'))
     cur = baza.cursor()
     hgeslo = None
     try: 
@@ -73,37 +73,72 @@ def prijava_post():
         hgeslo = None
     if hgeslo is None:
         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
-        redirect(url('prijava_get'))
+        redirect(url('prijava_ucenec_get'))
         return
     if geslo != hgeslo:
         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
-        redirect(url('prijava_get'))
+        redirect(url('prijava_ucenec_get'))
         return
     response.set_cookie('username', username, path="/", secret=skrivnost)
 
-    #preverimo vlogo in ustrezno preusmerimo na profilno stran
-    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
-    vloga, = cur.fetchone()
-    #print(vloga)
-    if vloga == 'stranka':
-        redirect(url('uporabnik'))
-    if vloga == 'instruktor':
-        redirect(url('instruktor'))
+    # #preverimo vlogo in ustrezno preusmerimo na profilno stran
+    # cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
+    # vloga, = cur.fetchone()
+    # #print(vloga)
+    # if vloga == 'stranka':
+    redirect(url('uporabnik'))
+    # if vloga == 'instruktor':
+    #     redirect(url('instruktor'))
 
 
+# #___PRIJAVA_INSTRUKTORJA___________________________________
+# #
+get('/prijava_instruktor') 
+def prijava_instruktor_get():
+    return template('prijava_instruktor.html', napaka=None)
 
-@get('/instruktor') 
-def instruktor():
-    return 'Prijavljen kot instruktor.'
+@post('/prijava_instruktor')
+def prijava_instruktor_post():
+    username = request.forms.username
+    geslo = request.forms.password
+    if username is None or geslo is None:
+        nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
+        redirect(url('prijava_instruktor_get'))
+    cur = baza.cursor()
+    hgeslo = None
+    try: 
+        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", (username, ))
+        hgeslo, = cur.fetchone()
+    except:
+        hgeslo = None
+    if hgeslo is None:
+        nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
+        redirect(url('prijava_instruktor_get'))
+        return
+    if geslo != hgeslo:
+        nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
+        redirect(url('prijava_instruktor_get'))
+        return
+    response.set_cookie('username', username, path="/", secret=skrivnost)
 
-# REGISTRACIJA
-@get('/registracija')
-def registracija_get():
+    # #preverimo vlogo in ustrezno preusmerimo na profilno stran
+    # cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
+    # vloga, = cur.fetchone()
+    # #print(vloga)
+    # if vloga == 'stranka':
+    #     redirect(url('uporabnik'))
+    # if vloga == 'instruktor':
+    redirect(url('instruktor'))
+
+
+# # REGISTRACIJA STRANKE -------------------------------------------
+@get('/registracija_ucenec')
+def registracija_ucenec_get():
     napaka = nastaviSporocilo()
-    return template('registracija.html', napaka=napaka)
+    return template('registracija_ucenec.html', napaka=napaka)
 
-@post('/registracija')
-def registracija_post():
+@post('/registracija_ucenec')
+def registracija_ucenec_post():
     ime = request.forms.ime
     priimek = request.forms.priimek
     email = request.forms.email
@@ -111,25 +146,26 @@ def registracija_post():
     username = request.forms.username
     password = request.forms.password
     password2 = request.forms.password2
+    vloga = "ucenec"
 
     #preverimo, ce je izbrani username ze zaseden
     cur = baza.cursor()
     cur.execute("SELECT * FROM oseba WHERE uporabnisko_ime=%s", (username,))
     upor = cur.fetchone()
     if upor is not None:
-        return template('registracija.html',  ime=ime, priimek=priimek, username=username,
+        return template('registracija_ucenec.html',  ime=ime, priimek=priimek, username=username,
                                 email=email, napaka="Uporabniško ime je že zasedeno!")
         
 
     # preverimo, ali se gesli ujemata
     if password != password2:
-        return template("registracija.html", ime=ime, priimek=priimek, username=username,
+        return template("registracija_ucenec.html", ime=ime, priimek=priimek, username=username,
                                 email=email, napaka="Gesli se ne ujemata!")
         
     #preverimo, ali ima geslo vsaj 4 znake
 
     if len(password) < 4:
-        return template("registracija.html", ime=ime, priimek=priimek, username=username,
+        return template("registracija_ucenec.html", ime=ime, priimek=priimek, username=username,
                                 email=email, napaka="Geslo mora imeti vsaj 4 znake!")
         
 
@@ -141,6 +177,54 @@ def registracija_post():
     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'stranka')", (username,)) 
     baza.commit()
     redirect(url('uporabnik'))
+
+# # REGISTRACIJA INSTRUKTOJA -------------------------------------------------------------------------------
+
+@get('/registracija_instruktor')
+def registracija_instruktor_get():
+    napaka = nastaviSporocilo()
+    return template('egistracija_instruktor.html', napaka=napaka)
+
+@post('/registracija_instruktor')
+def registracija_instruktor_post():
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    email = request.forms.email
+    telefon = request.forms.telefon
+    username = request.forms.username
+    password = request.forms.password
+    password2 = request.forms.password2
+    vloga = "instruktor"
+
+    #preverimo, ce je izbrani username ze zaseden
+    cur = baza.cursor()
+    cur.execute("SELECT * FROM oseba WHERE uporabnisko_ime=%s", (username,))
+    upor = cur.fetchone()
+    if upor is not None:
+        return template('registracija_instruktor.html',  ime=ime, priimek=priimek, username=username,
+                                email=email, napaka="Uporabniško ime je že zasedeno!")
+        
+
+    # preverimo, ali se gesli ujemata
+    if password != password2:
+        return template("registracija_instruktor.html", ime=ime, priimek=priimek, username=username,
+                                email=email, napaka="Gesli se ne ujemata!")
+        
+    #preverimo, ali ima geslo vsaj 4 znake
+
+    if len(password) < 4:
+        return template("registracija_instruktor.html", ime=ime, priimek=priimek, username=username,
+                                email=email, napaka="Geslo mora imeti vsaj 4 znake!")
+        
+
+    #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
+    response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
+    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
+    print('lalaal')
+    baza.commit() 
+    cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'instruktor')", (username,)) 
+    baza.commit()
+    redirect(url('instruktor'))
  
 #__________________________________________________________________________________________________
 # ODJAVA
@@ -149,6 +233,12 @@ def registracija_post():
 def odjava_get():
     response.delete_cookie('username', path="/")
     redirect(url('index')) 
+#__________________________________________________________________________________________________
+# STRAN INSTRUKTORJA
+
+@get('/instruktor') 
+def instruktor():
+    return 'Prijavljen kot instruktor.'
 
 #___________________________________________________________________________________________________
 # STRANI UPORABNIKA
