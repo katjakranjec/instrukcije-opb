@@ -97,6 +97,20 @@ INSERT INTO vloga VALUES ('instruktor');
 INSERT INTO vloga_osebe VALUES ('katjak','stranka');
 INSERT INTO vloga_osebe VALUES ('mancast','instruktor');
 
+INSERT INTO predmet VALUES ('slovenščina'), ('matematika'), ('angleščina'),
+('nemščina'), ('fizika'), ('kemija'), ('biologija');
+
+INSERT INTO letnik VALUES ('6. razred osnovne šole'), ('7. razred osnovne šole'), ('8. razred osnovne šole'),
+('9. razred osnovne šole'), ('1. letnik gimnazije'), ('2. letnik gimnazije'), ('3. letnik gimnazije'),
+('4. letnik gimnazije'), ('1. letnik srednje strokovne šole'), ('2. letnik srednje strokovne šole'),
+('3. letnik srednje strokovne šole'), ('4. letnik srednje strokovne šole');
+
+INSERT INTO termin VALUES ('mancast','katjak','matematika','nekje','2022-05-23','12:34:54.1237');
+INSERT INTO termin VALUES ('mancast','katjak','slovenščina','nekje drugje','2022-05-24','12:00:00');
+INSERT INTO termin VALUES ('mancast','katjak','matematika','nek','2022-05-25','12:34:54');
+INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-26','12:34:00');
+
+
 -- CREATE TABLE termin (
 --     instruktor INTEGER REFERENCES oseba(id),
 --     stranka INTEGER REFERENCES oseba(id),
