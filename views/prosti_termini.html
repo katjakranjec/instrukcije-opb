@@ -1,0 +1,24 @@
+% rebase('base.html')
+
+<body>
+    <h2>Prosti termini</h2>
+    <table style="width:100%">
+        <tr>
+          <th>Inštruktor</th>
+          <th>Predmet</th>
+          <th>Lokacija</th>
+          <th>Datum</th>
+          <th>Ura</th>
+        </tr>
+        %for (instruktor, predmet, lokacija, datum, ura) in podatki:
+            <tr>
+                <td>{{instruktor}}</td>
+                <td>{{predmet}}</td>
+                <td>{{lokacija}}</td>
+                <td>{{datum}}</td>
+                <td>{{ura}}</td>
+            </tr>
+        %end
+      </table>
+
+</body>

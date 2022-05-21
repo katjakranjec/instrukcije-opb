@@ -1,0 +1,18 @@
+% rebase('base.html')
+
+<body>
+    <h2>Izberi:</h2>
+    <form action="/uporabnik/rezerviraj" method="post">
+        Datum:<input type="date" name="datum"
+        value="2022-05-22"
+        min="2022-05-22" max="2023-05-22">
+        <br>
+        Predmet:<select data-placeholder="..." multiple class="chosen-select" name="predmet">
+          <option value="slovenščina">slovenščina</option>
+          <option value="matematika">matematika</option>
+          <option value="angleščina">angleščina</option>
+        </select>
+        <br>
+        <input value="Najdi" type="submit" />
+    </form>
+</body>

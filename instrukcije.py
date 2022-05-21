@@ -172,6 +172,22 @@ def mojprofil():
 
     return template('profil.html', oseba=cur)
 
+@get('/uporabnik/rezerviraj')
+def rezerviraj_get():
+    #return 'Nekej se zgodi'
+    return template('rezerviraj.html', napaka=None)
+
+@post('/uporabnik/rezerviraj')
+def rezerviraj_post():
+    predmet = request.forms.predmet
+    print(predmet)
+    datum = request.forms.datum
+    cur = baza.cursor()
+    if predmet != '':
+        cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE predmet='{0}'".format(predmet))
+    else:
+        cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin")
+    return template('prosti_termini.html', podatki=cur)
 
 ######################################################################
 # Glavni program
