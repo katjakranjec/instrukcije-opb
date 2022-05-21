@@ -1,11 +1,21 @@
 % rebase('base.html')
 
+<head>
+    <div class="topleft">
+        <form action='/' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
+        </form>
+    </div>
+</head>
+
 <body>
-<form action="/prijava" method="post">
-    <span class="neki">Uporabniško ime:</span> <input name="username" type="text" />
+    <h2>Prijava</h2>
     <br>
-    <span class="neki">Geslo:</span> <input name="password" type="text" />
-    <br>
-    <input value="Prijava" type="submit" />
-</form>
+    <form action="/prijava" method="post">
+        <span class="neki">Uporabniško ime:</span> <input name="username" type="text" />
+        <br>
+        <span class="neki">Geslo:</span> <input name="password" type="text" />
+        <br>
+        <input value="Prijava" type="submit" />
+    </form>
 </body>
