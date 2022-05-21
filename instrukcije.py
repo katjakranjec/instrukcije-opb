@@ -84,15 +84,13 @@ def prijava_post():
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
     cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
     vloga, = cur.fetchone()
-    print(vloga)
+    #print(vloga)
     if vloga == 'stranka':
         redirect(url('uporabnik'))
     if vloga == 'instruktor':
         redirect(url('instruktor'))
 
-@get('/uporabnik') 
-def uporabnik():
-    return 'Prijavljen kot uporabnik.'
+
 
 @get('/instruktor') 
 def instruktor():
@@ -144,7 +142,26 @@ def registracija_post():
     baza.commit()
     redirect(url('uporabnik'))
  
-  
+#__________________________________________________________________________________________________
+# ODJAVA
+
+@get('/odjava')
+def odjava_get():
+    response.delete_cookie('username', path="/")
+    redirect(url('index')) 
+
+#___________________________________________________________________________________________________
+# HOMEPAGE UPORABNIKA
+
+@get('/uporabnik') 
+def uporabnik():
+    username = request.get_cookie('username', secret=skrivnost)
+    cur = baza.cursor()
+    #print('do sm pride')
+    #print(username)
+    cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka='{0}' ".format(username))
+
+    return template('uporabnik.html', termini=cur)
 
 
 ######################################################################
