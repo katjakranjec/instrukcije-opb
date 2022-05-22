@@ -209,8 +209,9 @@ def instruktor_registracija_post():
         if str:
             # print('yaaa, je not')
             cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, str)) 
+            # NIMAM DOVOLJENJA ZA "PODROCJE"
             baza.commit()
-    return 'yay'
+    redirect(url('/instruktor'))
 
 
 @get('/registracija/uporabnik')
@@ -223,6 +224,7 @@ def uporabnik_registracija_post():
     sola = request.forms.sola
     cur = baza.cursor()
     return 'yay'
+    #  redirect(url('/uporabnik'))
 
 
 
