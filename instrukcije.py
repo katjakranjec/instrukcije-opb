@@ -197,8 +197,19 @@ def instruktor_registracija_get():
 
 @post('/registracija/instruktor')
 def instruktor_registracija_post():
-    predmeti = request.forms.predmeti
+    username = request.get_cookie('username', secret=skrivnost)
+    slo = request.forms.slo
+    mat = request.forms.mat
+    ang = request.forms.ang
+    bio = request.forms.bio
+    fiz = request.forms.fiz
+    kem = request.forms.kem
     cur = baza.cursor()
+    for str in [slo, mat, ang, bio, fiz, kem]:
+        if str:
+            print('yaaa, je not')
+            cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, str)) 
+            baza.commit()
     return 'yay'
 
 
