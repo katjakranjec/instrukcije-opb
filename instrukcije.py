@@ -207,7 +207,7 @@ def instruktor_registracija_post():
     cur = baza.cursor()
     for str in [slo, mat, ang, bio, fiz, kem]:
         if str:
-            print('yaaa, je not')
+            # print('yaaa, je not')
             cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, str)) 
             baza.commit()
     return 'yay'
@@ -222,7 +222,7 @@ def uporabnik_registracija_get():
 def uporabnik_registracija_post():
     sola = request.forms.sola
     cur = baza.cursor()
-    return 'nay'
+    return 'yay'
 
 
 
