@@ -22,14 +22,20 @@
           <th>Lokacija</th>
           <th>Datum</th>
           <th>Ura</th>
+          <th></th>
         </tr>
-        %for (ime, priimek, predmet, lokacija, datum, ura) in podatki:
+        %for (id, ime, priimek, lokacija, datum, ura) in podatki:
             <tr>
                 <td>{{ime}} {{priimek}}</td>
-                <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>
                 <td>{{ura}}</td>
+                <td>
+                  <form action='/uporabnik/rezervacijavteku' method='post'>
+                    <input type="hidden" name="id" value="{{id}}" />
+                    <button type="submit">rezerviraj</button>
+                  </form> 
+                </td>
             </tr>
         %end
       </table>

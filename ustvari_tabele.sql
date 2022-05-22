@@ -78,13 +78,13 @@ CREATE TABLE obiskuje (
 
 DROP TABLE IF EXISTS termin;
 CREATE TABLE termin (
+    id_termina SERIAL PRIMARY KEY,
     instruktor TEXT REFERENCES oseba(uporabnisko_ime),
     stranka TEXT REFERENCES oseba(uporabnisko_ime),
     predmet TEXT REFERENCES predmet(ime_predmeta),
     lokacija TEXT NOT NULL,
     datum DATE NOT NULL,
-    ura TIME NOT NULL,
-    PRIMARY KEY (instruktor,datum,ura)
+    ura TIME NOT NULL
 );
 
 --primer osebe z vlogo (na roko vnešen v bazo)
@@ -105,15 +105,12 @@ INSERT INTO letnik VALUES ('6. razred osnovne šole'), ('7. razred osnovne šole
 ('4. letnik gimnazije'), ('1. letnik srednje strokovne šole'), ('2. letnik srednje strokovne šole'),
 ('3. letnik srednje strokovne šole'), ('4. letnik srednje strokovne šole');
 
-INSERT INTO termin VALUES ('mancast','katjak','matematika','nekje','2022-05-23','12:34:54.1237');
-INSERT INTO termin VALUES ('mancast','katjak','slovenščina','nekje drugje','2022-05-24','12:00:00');
-INSERT INTO termin VALUES ('mancast','katjak','matematika','nek','2022-05-25','12:34:54');
-INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-26','12:34:00');
-INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','angleščina','nekje drugje','2022-05-24','13:00:00');
-INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek','2022-05-25','13:34:54');
-INSERT INTO termin(instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek drget','2022-05-26','17:34:00');
-INSERT INTO termin VALUES ('instruktor','katjak','matematika','nek','2022-04-25','12:34:54');
-INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-7','12:00:00');
+INSERT INTO termin (instruktor,lokacija,datum,ura) VALUES ('mancast','nekje','2022-05-23','13:34:00');
+INSERT INTO termin (instruktor,lokacija,datum,ura) VALUES ('mancast','nekje drugje','2022-05-22','12:34:00');
+INSERT INTO termin (instruktor,lokacija,datum,ura) VALUES ('mancast','nek','2022-05-21','12:00:00');
+INSERT INTO termin (instruktor,lokacija,datum,ura) VALUES ('mancast','nekje','2022-05-27','17:00:00');
+INSERT INTO termin (instruktor,lokacija,datum,ura) VALUES ('mancast','nek drget','2022-05-25','12:34:00');
+INSERT INTO termin (instruktor,lokacija,datum,ura) VALUES ('mancast','kje','2022-05-30','12:00:00');
 
 -- CREATE TABLE termin (
 --     instruktor INTEGER REFERENCES oseba(id),

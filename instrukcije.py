@@ -183,10 +183,18 @@ def rezerviraj_post():
     datum = request.forms.datum
     cur = baza.cursor()
     if predmet != '':
-        cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE predmet='{0}' AND stranka IS NULL".format(predmet))
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL")
     else:
-        cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL")
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL")
     return template('prosti_termini.html', podatki=cur)
+
+@post('/uporabnik/rezervacijavteku')
+def rezervacija_v_teku():
+    username = request.get_cookie('username', secret=skrivnost)
+    id = request.forms.id
+    cur = baza.cursor()
+    cur.execute("UPDATE termin SET stranka = {0} WHERE id_termina = {1}".format(username, id))
+    redirect(url('uporabnik'))
 
 #_________________________________________________________________________________________________
 # STRANI INŠTRUKTORJA
