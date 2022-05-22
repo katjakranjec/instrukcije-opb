@@ -53,17 +53,17 @@ def index():
 
 #_PRIJAVA_STRANKE______________________________________________
 
-@get("/prijava_ucenec") 
-def prijava_ucenec_get():
-    return template('prijava_ucenec.html', napaka=None)
+@get("/prijava") 
+def prijava_get():
+    return template('prijava.html', napaka=None)
 
-@post("/prijava_ucenec")
+@post("/prijava")
 def prijava_post():
     username = request.forms.username
     geslo = request.forms.password
     if username is None or geslo is None:
         nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
-        redirect(url('prijava_ucenec_get'))
+        redirect(url('prijava_get'))
     cur = baza.cursor()
     hgeslo = None
     try: 
@@ -73,55 +73,55 @@ def prijava_post():
         hgeslo = None
     if hgeslo is None:
         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
-        redirect(url('prijava_ucenec_get'))
+        redirect(url('prijava_get'))
         return
     if geslo != hgeslo:
         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
-        redirect(url('prijava_ucenec_get'))
+        redirect(url('prijava_get'))
         return
     response.set_cookie('username', username, path="/", secret=skrivnost)
 
-    # #preverimo vlogo in ustrezno preusmerimo na profilno stran
-    # cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
-    # vloga, = cur.fetchone()
-    # #print(vloga)
-    # if vloga == 'stranka':
-    redirect(url('uporabnik'))
-    # if vloga == 'instruktor':
-    #     redirect(url('instruktor'))
+    #preverimo vlogo in ustrezno preusmerimo na profilno stran
+    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
+    vloga, = cur.fetchone()
+    #print(vloga)
+    if vloga == 'stranka':
+        redirect(url('uporabnik'))
+    if vloga == 'instruktor':
+        redirect(url('instruktor'))
 
 
 # #___PRIJAVA_INSTRUKTORJA___________________________________
 # 
 
-get('/prijava_instruktor') 
-def prijava_instruktor_get():
-    return template('prijava_instruktor.html', napaka=None)
+# get('/prijava_instruktor') 
+# def prijava_instruktor_get():
+#     return template('prijava_instruktor.html', napaka=None)
 
-@post('/prijava_instruktor')
-def prijava_instruktor_post():
-    username = request.forms.username
-    geslo = request.forms.password
-    if username is None or geslo is None:
-        nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
-        redirect(url('prijava_instruktor_get'))
-    cur = baza.cursor()
-    hgeslo = None
-    try: 
-        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", (username, ))
-        hgeslo, = cur.fetchone()
-    except:
-        hgeslo = None
-    if hgeslo is None:
-        nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
-        redirect(url('prijava_instruktor_get'))
-        return
-    if geslo != hgeslo:
-        nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
-        redirect(url('prijava_instruktor_get'))
-        return
-    response.set_cookie('username', username, path="/", secret=skrivnost)
-    redirect(url('instruktor'))
+# @post('/prijava_instruktor')
+# def prijava_instruktor_post():
+#     username = request.forms.username
+#     geslo = request.forms.password
+#     if username is None or geslo is None:
+#         nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
+#         redirect(url('prijava_instruktor_get'))
+#     cur = baza.cursor()
+#     hgeslo = None
+#     try: 
+#         cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", (username, ))
+#         hgeslo, = cur.fetchone()
+#     except:
+#         hgeslo = None
+#     if hgeslo is None:
+#         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
+#         redirect(url('prijava_instruktor_get'))
+#         return
+#     if geslo != hgeslo:
+#         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
+#         redirect(url('prijava_instruktor_get'))
+#         return
+#     response.set_cookie('username', username, path="/", secret=skrivnost)
+#     redirect(url('instruktor'))
 
     
     # #preverimo vlogo in ustrezno preusmerimo na profilno stran
@@ -293,7 +293,19 @@ def rezervacija_v_teku():
 
 @get('/instruktor') 
 def instruktor():
-    return 'Prijavljen kot instruktor.'
+    return template('instruktor.html')
+
+@get('/instruktor/rezerviraj')
+def rezerviraj_get():
+    return template('inst_rezerviraj.html', napaka=None)
+
+@get('/instruktor/rezerviraj')
+def inst_rezerviraj_post():
+    predmet = request.forms.predmet
+    datum = request.forms.datum
+    stranka = request.forms.stranka
+    cur = baza.cursor()
+
 
 
 
