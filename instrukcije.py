@@ -236,12 +236,7 @@ def registracija_instruktor_post():
 def odjava_get():
     response.delete_cookie('username', path="/")
     redirect(url('index')) 
-#__________________________________________________________________________________________________
-# STRAN INSTRUKTORJA
 
-@get('/instruktor') 
-def instruktor():
-    return 'Prijavljen kot instruktor.'
 
 #___________________________________________________________________________________________________
 # STRANI UPORABNIKA
