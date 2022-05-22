@@ -1,7 +1,15 @@
 % rebase('base.html')
 
+<head>
+    <div class="topleft">
+        <form action='/' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
+        </form>
+    </div>
+</head>
+
 <body>
-<form action="/registracija_instruktor" method="post">
+<form action="/registracija" method="post">
     <span class="neki">Ime:</span> <input name="ime" type="text" /> <br>
     <span class="neki">Priimek:</span> <input name="priimek" type="text" /> <br>
     <span class="neki">E-mail:</span> <input name="email" type="text" /> <br>
@@ -9,6 +17,10 @@
     <span class="neki">Uporabniško ime:</span> <input name="username" type="text" /> <br>
     <span class="neki">Geslo:</span> <input name="password" type="password" /> <br>
     <span class="neki">Ponovno vpišite geslo:</span> <input name="password2" type="password" /> <br>
+    <select name="vloga" id="vloga"> 
+        <option value="stranka">Učenec</option>
+        <option value="instruktor">Inštruktor</option>
+    </select>
     <input value="Registracija" type="submit" /> <br>
 </form>
 </body>
