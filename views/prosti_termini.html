@@ -18,14 +18,16 @@
     <table style="width:100%">
         <tr>
           <th>Inštruktor</th>
+          <th>Predmet</th>
           <th>Lokacija</th>
           <th>Datum</th>
           <th>Ura</th>
           <th></th>
         </tr>
-        %for (id, ime, priimek, lokacija, datum, ura) in podatki:
+        %for (id, ime, priimek, predmet, lokacija, datum, ura) in podatki:
             <tr>
                 <td>{{ime}} {{priimek}}</td>
+                <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>
                 <td>{{ura}}</td>
