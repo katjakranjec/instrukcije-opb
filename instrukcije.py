@@ -177,7 +177,7 @@ def registracija_ucenec_post():
     cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
     #print('lalaal')
     baza.commit() 
-    cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'stranka')", (username,)) 
+    cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'stranka')", (username)) 
     baza.commit()
     redirect(url('uporabnik'))
 
@@ -225,7 +225,7 @@ def registracija_instruktor_post():
     cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
     print('lalaal')
     baza.commit() 
-    cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'instruktor')", (username,)) 
+    cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'instruktor')", (username)) 
     baza.commit()
     redirect(url('instruktor'))
  
