@@ -92,7 +92,8 @@ def prijava_post():
 
 
 # #___PRIJAVA_INSTRUKTORJA___________________________________
-# #
+# 
+
 get('/prijava_instruktor') 
 def prijava_instruktor_get():
     return template('prijava_instruktor.html', napaka=None)
@@ -120,7 +121,9 @@ def prijava_instruktor_post():
         redirect(url('prijava_instruktor_get'))
         return
     response.set_cookie('username', username, path="/", secret=skrivnost)
+    redirect(url('instruktor'))
 
+    
     # #preverimo vlogo in ustrezno preusmerimo na profilno stran
     # cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
     # vloga, = cur.fetchone()
@@ -128,7 +131,7 @@ def prijava_instruktor_post():
     # if vloga == 'stranka':
     #     redirect(url('uporabnik'))
     # if vloga == 'instruktor':
-    redirect(url('instruktor'))
+
 
 
 # # REGISTRACIJA STRANKE -------------------------------------------
@@ -183,7 +186,7 @@ def registracija_ucenec_post():
 @get('/registracija_instruktor')
 def registracija_instruktor_get():
     napaka = nastaviSporocilo()
-    return template('egistracija_instruktor.html', napaka=napaka)
+    return template('registracija_instruktor.html', napaka=napaka)
 
 @post('/registracija_instruktor')
 def registracija_instruktor_post():
