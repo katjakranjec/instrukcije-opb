@@ -16,15 +16,13 @@
     <table style="width:100%">
         <tr>
           <th>Inštruktor</th>
-          <th>Predmet</th>
           <th>Lokacija</th>
           <th>Datum</th>
           <th>Ura</th>
         </tr>
-        %for (ime, priimek, predmet, lokacija, datum, ura) in rez_termini:
+        %for (ime, priimek, lokacija, datum, ura) in rez_termini:
             <tr>
                 <td>{{ime}} {{priimek}}</td>
-                <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>
                 <td>{{ura}}</td>
@@ -40,7 +38,6 @@
         <table style="width:100%">
         <tr>
           <th>Inštruktor</th>
-          <th>Predmet</th>
           <th>Lokacija</th>
           <th>Datum</th>
           <th>Ura</th>
@@ -48,7 +45,6 @@
         %for (ime, priimek, predmet, lokacija, datum, ura) in pre_termini:
             <tr>
                 <td>{{ime}} {{priimek}}</td>
-                <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
                 <td>{{datum}}</td>
                 <td>{{ura}}</td>

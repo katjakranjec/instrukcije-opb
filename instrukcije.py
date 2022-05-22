@@ -155,10 +155,10 @@ def odjava_get():
 def uporabnik():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum>NOW() ".format(username))
+    cur.execute("SELECT oseba.ime,oseba.priimek,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum>NOW() ".format(username))
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum<NOW() ".format(username))
+    cur.execute("SELECT oseba.ime,oseba.priimek,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum<NOW() ".format(username))
     pre_termini=cur
     return template('uporabnik.html', rez_termini=rez_termini, pre_termini=pre_termini)
 
@@ -193,7 +193,9 @@ def rezervacija_v_teku():
     username = request.get_cookie('username', secret=skrivnost)
     id = request.forms.id
     cur = baza.cursor()
-    cur.execute("UPDATE termin SET stranka = {0} WHERE id_termina = {1}".format(username, id))
+    print('dosmpride')
+    cur.execute("UPDATE termin SET stranka='{0}' WHERE id_termina = {1}".format(username, id))
+    print('tud do sem pride')
     redirect(url('uporabnik'))
 
 #_________________________________________________________________________________________________
