@@ -1,0 +1,36 @@
+% rebase('base.html')
+
+<head>
+  <div class="topleft">
+    <form action='/uporabnik' method='get'>
+        <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
+    </form>
+  </div>
+  <div class="topright">
+      <form action='/odjava' method='get'>
+          <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
+      </form>
+  </div>
+</head>
+
+<body>
+    <h2>Izberi:</h2>
+    <form action="/uporabnik/rezerviraj" method="post">
+        Datum:<input type="date" name="datum"
+        value="2022-05-22"
+        min="2022-05-22" max="2023-05-22">
+        <br>
+        Predmet:<select name="predmet">
+          <option value="">vsi predmeti</option>
+          <option value="slovenščina">slovenščina</option>
+          <option value="matematika">matematika</option>
+          <option value="angleščina">angleščina</option>
+          <option value="nemščina">nemščina</option>
+          <option value="fizika">fizika</option>
+          <option value="kemija">kemija</option>
+          <option value="biologija">biologija</option>
+        </select>
+        <br>
+        <input value="Najdi" type="submit" />
+    </form>
+</body>

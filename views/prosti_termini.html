@@ -1,0 +1,44 @@
+% rebase('base.html')
+
+<head>
+  <div class="topleft">
+    <form action='/uporabnik/rezerviraj' method='get'>
+        <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
+    </form>
+</div>
+  <div class="topright">
+      <form action='/odjava' method='get'>
+          <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
+      </form>
+  </div>
+</head>
+
+<body>
+    <h2>Prosti termini</h2>
+    <table style="width:100%">
+        <tr>
+          <th>Inštruktor</th>
+          <th>Predmet</th>
+          <th>Lokacija</th>
+          <th>Datum</th>
+          <th>Ura</th>
+          <th></th>
+        </tr>
+        %for (id, ime, priimek, predmet, lokacija, datum, ura) in podatki:
+            <tr>
+                <td>{{ime}} {{priimek}}</td>
+                <td>{{predmet}}</td>
+                <td>{{lokacija}}</td>
+                <td>{{datum}}</td>
+                <td>{{ura}}</td>
+                <td>
+                  <form action='/uporabnik/rezervacijavteku' method='post'>
+                    <input type="hidden" name="id" value="{{id}}" />
+                    <button type="submit">rezerviraj</button>
+                  </form> 
+                </td>
+            </tr>
+        %end
+      </table>
+
+</body>

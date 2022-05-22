@@ -17,7 +17,7 @@ psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
 import os
 import hashlib
 
-skrivnost="skrivnost"
+skrivnost="NaJsKrIvNoStNeJsAsKrIvNoSt"
 
 # privzete nastavitve
 SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
@@ -175,7 +175,7 @@ def registracija_ucenec_post():
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
     cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
-    print('lalaal')
+    #print('lalaal')
     baza.commit() 
     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'stranka')", (username,)) 
     baza.commit()
@@ -250,11 +250,12 @@ def instruktor():
 def uporabnik():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    #print('do sm pride')
-    #print(username)
-    cur.execute("SELECT instruktor,predmet,lokacija,datum,ura FROM termin WHERE stranka='{0}' ".format(username))
-
-    return template('uporabnik.html', termini=cur)
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum>NOW() ".format(username))
+    rez_termini=cur
+    cur = baza.cursor()
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum<NOW() ".format(username))
+    pre_termini=cur
+    return template('uporabnik.html', rez_termini=rez_termini, pre_termini=pre_termini)
 
 @get('/uporabnik/mojprofil')
 def mojprofil():
@@ -264,6 +265,41 @@ def mojprofil():
     cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
 
     return template('profil.html', oseba=cur)
+
+@get('/uporabnik/rezerviraj')
+def rezerviraj_get():
+    #return 'Nekej se zgodi'
+    return template('rezerviraj.html', napaka=None)
+
+@post('/uporabnik/rezerviraj')
+def rezerviraj_post():
+    predmet = request.forms.predmet
+    #print(predmet)
+    datum = request.forms.datum
+    cur = baza.cursor()
+    if predmet != '':
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = '{0}'".format(predmet))
+    else:
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL")
+    return template('prosti_termini.html', podatki=cur)
+
+@post('/uporabnik/rezervacijavteku')
+def rezervacija_v_teku():
+    username = request.get_cookie('username', secret=skrivnost)
+    id = request.forms.id
+    cur = baza.cursor()
+    #print('dosmpride')
+    cur.execute("UPDATE termin SET stranka='{0}' WHERE id_termina = {1}".format(username, id))
+    #print('tud do sem pride')
+    redirect(url('uporabnik'))
+
+#_________________________________________________________________________________________________
+# STRANI INŠTRUKTORJA
+
+@get('/instruktor') 
+def instruktor():
+    return 'Prijavljen kot instruktor.'
+
 
 
 ######################################################################

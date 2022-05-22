@@ -78,13 +78,13 @@ CREATE TABLE obiskuje (
 
 DROP TABLE IF EXISTS termin;
 CREATE TABLE termin (
+    id_termina SERIAL PRIMARY KEY,
     instruktor TEXT REFERENCES oseba(uporabnisko_ime),
     stranka TEXT REFERENCES oseba(uporabnisko_ime),
     predmet TEXT REFERENCES predmet(ime_predmeta),
     lokacija TEXT NOT NULL,
     datum DATE NOT NULL,
-    ura TIME NOT NULL,
-    PRIMARY KEY (instruktor,datum,ura)
+    ura TIME NOT NULL
 );
 
 --primer osebe z vlogo (na roko vnešen v bazo)
@@ -105,6 +105,7 @@ INSERT INTO letnik VALUES ('6. razred osnovne šole'), ('7. razred osnovne šole
 ('4. letnik gimnazije'), ('1. letnik srednje strokovne šole'), ('2. letnik srednje strokovne šole'),
 ('3. letnik srednje strokovne šole'), ('4. letnik srednje strokovne šole');
 
+<<<<<<< HEAD
 -- a bi blo tukej mogoče smiselno ločit letnik pa šolo? 
 
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nekje','2022-05-23','12:34:54.1237');
@@ -112,6 +113,14 @@ INSERT INTO termin VALUES ('mancast','katjak','slovenščina','nekje drugje','20
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nek','2022-05-25','12:34:54');
 INSERT INTO termin VALUES ('mancast','katjak','matematika','nek drget','2022-05-26','12:34:00');
 
+=======
+INSERT INTO termin (instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','slovenščina','nekje','2022-05-23','13:34:00');
+INSERT INTO termin (instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nekje drugje','2022-05-22','12:34:00');
+INSERT INTO termin (instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','angleščina','nek','2022-05-21','12:00:00');
+INSERT INTO termin (instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nekje','2022-05-27','17:00:00');
+INSERT INTO termin (instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','nek drget','2022-05-25','12:34:00');
+INSERT INTO termin (instruktor,predmet,lokacija,datum,ura) VALUES ('mancast','matematika','kje','2022-05-30','12:00:00');
+>>>>>>> f723f028dcf2770543f11b2518841521492c8d87
 
 -- CREATE TABLE termin (
 --     instruktor INTEGER REFERENCES oseba(id),
@@ -142,4 +151,6 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost;
 
 GRANT INSERT ON oseba TO javnost;
 GRANT INSERT ON vloga_osebe TO javnost;
+GRANT INSERT ON termin TO javnost;
+GRANT UPDATE ON termin TO javnost;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO javnost;
