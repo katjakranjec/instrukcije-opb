@@ -1,0 +1,15 @@
+% rebase('base.html')
+
+<body>
+
+    <div> Vnesite datum in uro termina, ko ste na voljo za inštrukcije.
+    </div>
+
+    <form action="/instruktor/vnesi" method="post">
+       <input type="date" id="datum" name="datum"
+        min="2022-06-01">
+
+        <input value="Registracija" type="submit" /> <br>
+    </form>
+    
+</body>

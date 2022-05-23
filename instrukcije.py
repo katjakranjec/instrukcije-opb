@@ -79,16 +79,17 @@ def prijava_post():
         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
         redirect(url('prijava_get'))
         return
+        
     response.set_cookie('username', username, path="/", secret=skrivnost)
 
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
     cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username))
     vloga = cur.fetchone()
-    #print(vloga)
+    print(vloga)
     if vloga == 'stranka':
-        redirect(url('uporabnik'))
+        redirect(url('/uporabnik'))
     if vloga == 'instruktor':
-        redirect(url('instruktor'))
+        redirect(url('/instruktor'))
 
 
 # #___PRIJAVA_INSTRUKTORJA___________________________________
@@ -300,12 +301,17 @@ def instruktor():
 def rezerviraj_get():
     return template('inst_rezerviraj.html', napaka=None)
 
-@get('/instruktor/rezerviraj')
+@post('/instruktor/rezerviraj')
 def inst_rezerviraj_post():
     predmet = request.forms.predmet
     datum = request.forms.datum
     stranka = request.forms.stranka
     cur = baza.cursor()
+    return 'a'
+
+@get('/instruktor/vnesi')
+def inst__vnesi_get():
+    return template('inst_vnesi.html', napaka=None)
 
 
 
