@@ -205,10 +205,10 @@ def instruktor_registracija_post():
     fiz = request.forms.fiz
     kem = request.forms.kem
     cur = baza.cursor()
-    for str in [slo, mat, ang, bio, fiz, kem]:
-        if str:
-            # print('yaaa, je not')
-            cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, str)) 
+    for predmet in [slo, mat, ang, bio, fiz, kem]:
+        if predmet:
+            # print(predmet)
+            cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
             # NIMAM DOVOLJENJA ZA "PODROCJE"
             baza.commit()
     redirect(url('/instruktor'))
@@ -221,62 +221,15 @@ def uporabnik_registracija_get():
 
 @post('/registracija/uporabnik')
 def uporabnik_registracija_post():
-    sola = request.forms.sola
+    username = request.get_cookie('username', secret=skrivnost)
+    letnik = request.forms.letnik
     cur = baza.cursor()
-    return 'yay'
-    #  redirect(url('/uporabnik'))
+    cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
+    # tuki tut se nimam dovoljenja
+    baza.commit()
+    redirect(url('/uporabnik'))
 
 
-
-
-# # REGISTRACIJA INSTRUKTOJA -------------------------------------------------------------------------------
-
-# @get('/registracija_instruktor')
-# def registracija_instruktor_get():
-#     napaka = nastaviSporocilo()
-#     return template('registracija_instruktor.html', napaka=napaka)
-
-# @post('/registracija_instruktor')
-# def registracija_instruktor_post():
-#     ime = request.forms.ime
-#     priimek = request.forms.priimek
-#     email = request.forms.email
-#     telefon = request.forms.telefon
-#     username = request.forms.username
-#     password = request.forms.password
-#     password2 = request.forms.password2
-#     vloga = "instruktor"
-
-#     #preverimo, ce je izbrani username ze zaseden
-#     cur = baza.cursor()
-#     cur.execute("SELECT * FROM oseba WHERE uporabnisko_ime=%s", (username,))
-#     upor = cur.fetchone()
-#     if upor is not None:
-#         return template('registracija_instruktor.html',  ime=ime, priimek=priimek, username=username,
-#                                 email=email, napaka="Uporabniško ime je že zasedeno!")
-        
-
-#     # preverimo, ali se gesli ujemata
-#     if password != password2:
-#         return template("registracija_instruktor.html", ime=ime, priimek=priimek, username=username,
-#                                 email=email, napaka="Gesli se ne ujemata!")
-        
-#     #preverimo, ali ima geslo vsaj 4 znake
-
-#     if len(password) < 4:
-#         return template("registracija_instruktor.html", ime=ime, priimek=priimek, username=username,
-#                                 email=email, napaka="Geslo mora imeti vsaj 4 znake!")
-        
-
-#     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
-#     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
-#     cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
-#     print('lalaal')
-#     baza.commit() 
-#     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, 'instruktor')", (username)) 
-#     baza.commit()
-#     redirect(url('instruktor'))
- 
 #__________________________________________________________________________________________________
 # ODJAVA
 
