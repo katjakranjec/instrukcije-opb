@@ -99,7 +99,9 @@ INSERT INTO vloga_osebe VALUES ('mancast','instruktor');
 
 INSERT INTO predmet VALUES ('slo'), ('mat'), ('ang'), ('fiz'), ('kem'), ('bio');
 
-INSERT INTO letnik VALUES ('6. razred osnovne šole'), ('7. razred osnovne šole'), ('8. razred osnovne šole'),
+INSERT INTO letnik VALUES ('1. razred osnovne šole'), ('2. razred osnovne šole'), ('3. razred osnovne šole'),
+('4. razred osnovne šole'), ('5. razred osnovne šole'),
+('6. razred osnovne šole'), ('7. razred osnovne šole'), ('8. razred osnovne šole'),
 ('9. razred osnovne šole'), ('1. letnik gimnazije'), ('2. letnik gimnazije'), ('3. letnik gimnazije'),
 ('4. letnik gimnazije'), ('1. letnik srednje strokovne šole'), ('2. letnik srednje strokovne šole'),
 ('3. letnik srednje strokovne šole'), ('4. letnik srednje strokovne šole');
