@@ -61,24 +61,23 @@ def prijava_get():
 def prijava_post():
     username = request.forms.username
     geslo = request.forms.password
-    print(username)
-    print(geslo)
     if username is None or geslo is None:
-        nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
+        print('Uporabniško ime in geslo morata biti neprazna') 
         redirect(url('prijava_get'))
     cur = baza.cursor()
     hgeslo = None
     try: 
+        print('no pa dejmo probat')
         cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", (username))
         hgeslo, = cur.fetchone()
     except:
         hgeslo = None
     if hgeslo is None:
-        nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
+        print('Uporabniško ime ali geslo nista pravilna')
         redirect(url('prijava_get'))
         return
     if geslo != hgeslo:
-        nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
+        print('Uporabniško ime ali geslo nista pravilna') 
         redirect(url('prijava_get'))
         return
         
