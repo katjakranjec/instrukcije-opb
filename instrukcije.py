@@ -208,8 +208,8 @@ def instruktor_registracija_post():
     cur = baza.cursor()
     for predmet in [slo, mat, ang, bio, fiz, kem]:
         if predmet:
-            # print(predmet)
-            # cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
+            print(predmet)
+            cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
             # NIMAM DOVOLJENJA ZA "PODROCJE"
             baza.commit()
     redirect(url('/instruktor'))
@@ -224,8 +224,9 @@ def uporabnik_registracija_get():
 def uporabnik_registracija_post():
     username = request.get_cookie('username', secret=skrivnost)
     letnik = request.forms.letnik
+   
     cur = baza.cursor()
-    # cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
+    cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
     # tuki tut se nimam dovoljenja
     baza.commit()
     redirect(url('/uporabnik'))
