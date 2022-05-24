@@ -61,6 +61,8 @@ def prijava_get():
 def prijava_post():
     username = request.forms.username
     geslo = request.forms.password
+    print(username)
+    print(geslo)
     if username is None or geslo is None:
         nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
         redirect(url('prijava_get'))
@@ -81,7 +83,7 @@ def prijava_post():
         return
         
     response.set_cookie('username', username, path="/", secret=skrivnost)
-
+    print('do sem pride')
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
     cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username))
     vloga = cur.fetchone()
@@ -260,7 +262,7 @@ def mojprofil():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     print('do sem pride')
-    cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
+    cur.execute("SELECT ime,priimek,telefon,email,obiskuje.letnik,uporabnisko_ime FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime='{0}'".format(username))
 
     return template('profil.html', oseba=cur)
 
