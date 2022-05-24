@@ -10,7 +10,7 @@
 
     <form action="/registracija/uporabnik" method="post">
         <select name="razred" id="razred">
-            % for i in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            % for i in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
                 <option value="{{i}}. razred osnovne šole"> {{i}}. razred osnovne šole</option>
             % end
             % for i in ["1", "2", "3", "4",]:

@@ -97,8 +97,7 @@ INSERT INTO vloga VALUES ('instruktor');
 INSERT INTO vloga_osebe VALUES ('katjak','stranka');
 INSERT INTO vloga_osebe VALUES ('mancast','instruktor');
 
-INSERT INTO predmet VALUES ('slovenščina'), ('matematika'), ('angleščina'),
-('nemščina'), ('fizika'), ('kemija'), ('biologija');
+INSERT INTO predmet VALUES ('slo'), ('mat'), ('ang'), ('fiz'), ('kem'), ('bio');
 
 INSERT INTO letnik VALUES ('6. razred osnovne šole'), ('7. razred osnovne šole'), ('8. razred osnovne šole'),
 ('9. razred osnovne šole'), ('1. letnik gimnazije'), ('2. letnik gimnazije'), ('3. letnik gimnazije'),
@@ -144,4 +143,5 @@ GRANT INSERT ON vloga_osebe TO javnost;
 GRANT INSERT ON termin TO javnost;
 GRANT INSERT ON podrocje TO javnost;
 GRANT UPDATE ON termin TO javnost;
+
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO javnost;
