@@ -68,7 +68,7 @@ def prijava_post():
     hgeslo = None
     try: 
         print('no pa dejmo probat')
-        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", (username))
+        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = '{0}'".format(username))
         hgeslo, = cur.fetchone()
     except:
         hgeslo = None
@@ -84,8 +84,8 @@ def prijava_post():
     response.set_cookie('username', username, path="/", secret=skrivnost)
     print('do sem pride')
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
-    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username))
-    vloga = cur.fetchone()
+    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = '{0}'".format(username))
+    vloga, = cur.fetchone()
     print(vloga)
     if vloga == 'stranka':
         redirect(url('/uporabnik'))
@@ -261,7 +261,7 @@ def mojprofil():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     print('do sem pride')
-    cur.execute("SELECT ime,priimek,telefon,email,obiskuje.letnik,uporabnisko_ime FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime='{0}'".format(username))
+    cur.execute("SELECT ime, priimek, telefon, email, uporabnisko_ime FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime='{0}'".format(username))
 
     return template('profil.html', oseba=cur)
 
@@ -274,7 +274,8 @@ def rezerviraj_get():
 def rezerviraj_post():
     predmet = request.forms.predmet
     #print(predmet)
-    datum = request.forms.datum
+    od = request.forms.od
+    do = request.forms.do
     cur = baza.cursor()
     if predmet != '':
         cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = '{0}'".format(predmet))

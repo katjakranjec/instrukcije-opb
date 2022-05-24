@@ -97,6 +97,8 @@ INSERT INTO vloga VALUES ('instruktor');
 INSERT INTO vloga_osebe VALUES ('katjak','stranka');
 INSERT INTO vloga_osebe VALUES ('mancast','instruktor');
 
+INSERT INTO obiskuje VALUES ('katjak', '1. razred osnovne šole');
+
 INSERT INTO predmet VALUES ('slo'), ('mat'), ('ang'), ('fiz'), ('kem'), ('bio');
 
 INSERT INTO letnik VALUES ('1. razred osnovne šole'), ('2. razred osnovne šole'), ('3. razred osnovne šole'),
