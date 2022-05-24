@@ -225,7 +225,7 @@ def uporabnik_registracija_post():
     username = request.get_cookie('username', secret=skrivnost)
     letnik = request.forms.letnik
     cur = baza.cursor()
-    # cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
+    cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
     # tuki tut se nimam dovoljenja
     baza.commit()
     redirect(url('/uporabnik'))
