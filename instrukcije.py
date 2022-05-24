@@ -224,7 +224,7 @@ def uporabnik_registracija_get():
 def uporabnik_registracija_post():
     username = request.get_cookie('username', secret=skrivnost)
     letnik = request.forms.letnik
-   
+    print(letnik)
     cur = baza.cursor()
     cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
     # tuki tut se nimam dovoljenja
