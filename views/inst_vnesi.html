@@ -9,6 +9,16 @@
        <input type="date" id="datum" name="datum"
         min="2022-06-01">
 
+        <select name="cas" id="cas">
+            % for i in range(7,21)
+                ura = str(i)
+            <option value="{{ura}}">{{ura}}.00</option>            
+          </select>
+          <br><br>
+          <input type="submit" value="Submit">
+        </form>
+         
+
         <input value="Registracija" type="submit" /> <br>
     </form>
     

@@ -209,7 +209,7 @@ def instruktor_registracija_post():
     for predmet in [slo, mat, ang, bio, fiz, kem]:
         if predmet:
             # print(predmet)
-            cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
+            # cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
             # NIMAM DOVOLJENJA ZA "PODROCJE"
             baza.commit()
     redirect(url('/instruktor'))
@@ -225,7 +225,7 @@ def uporabnik_registracija_post():
     username = request.get_cookie('username', secret=skrivnost)
     letnik = request.forms.letnik
     cur = baza.cursor()
-    cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
+    # cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
     # tuki tut se nimam dovoljenja
     baza.commit()
     redirect(url('/uporabnik'))
@@ -297,21 +297,15 @@ def rezervacija_v_teku():
 def instruktor():
     return template('instruktor.html')
 
-@get('/instruktor/rezerviraj')
-def rezerviraj_get():
-    return template('inst_rezerviraj.html', napaka=None)
-
-@post('/instruktor/rezerviraj')
-def inst_rezerviraj_post():
-    predmet = request.forms.predmet
-    datum = request.forms.datum
-    stranka = request.forms.stranka
-    cur = baza.cursor()
-    return 'a'
 
 @get('/instruktor/vnesi')
-def inst__vnesi_get():
+def inst_vnesi_get():
     return template('inst_vnesi.html', napaka=None)
+
+@post('/instruktor/vnesi')
+def inst_vnesi_post():
+
+    return 'yay'
 
 
 
