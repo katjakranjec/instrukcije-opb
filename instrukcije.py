@@ -67,7 +67,7 @@ def prijava_post():
     cur = baza.cursor()
     hgeslo = None
     try: 
-        print('no pa dejmo probat')
+        #print('no pa dejmo probat')
         cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = '{0}'".format(username))
         hgeslo, = cur.fetchone()
     except:
@@ -82,11 +82,11 @@ def prijava_post():
         return
         
     response.set_cookie('username', username, path="/", secret=skrivnost)
-    print('do sem pride')
+    #print('do sem pride')
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
     cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = '{0}'".format(username))
     vloga, = cur.fetchone()
-    print(vloga)
+    #print(vloga)
     if vloga == 'stranka':
         redirect(url('/uporabnik'))
     if vloga == 'instruktor':
@@ -286,11 +286,12 @@ def rezerviraj_post():
 @post('/uporabnik/rezervacijavteku')
 def rezervacija_v_teku():
     username = request.get_cookie('username', secret=skrivnost)
+    print('zakaj ne delaš')
     id = request.forms.id
     cur = baza.cursor()
-    #print('dosmpride')
+    print(username)
     cur.execute("UPDATE termin SET stranka='{0}' WHERE id_termina = {1}".format(username, id))
-    #print('tud do sem pride')
+    print(id)
     redirect(url('uporabnik'))
 
 #_________________________________________________________________________________________________
