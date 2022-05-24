@@ -1,34 +1,72 @@
-<body> 
+% rebase('base.html')
 
-    <head>
-        <h1>Pozdravljen.</h1>
-    </head>
-    
-    <body>
-    <div class='center'>
-        <form action='/instruktor/vnesi' method='post'>
-            <button type='submit'>Vnesi nov prost termin</button>
+<head>
+    <div class="topright">
+        <form action='/instuktor/mojprofil' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>moj profil</button>
+        </form>
+        <form action='/odjava' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
         </form>
     </div>
-    
-    <br>
-    
-    <div class='center'>
-        <form action='/instruktor/rezerviraj' method='post'>
-            <button type='submit'>Vnesi nov dogovorjen termin</button>
-        </form>
-    </div>
-    
-    <br>
+</head>
     
     
-    <div class='center'>
-        <form action='/odjava' method='post'>
-            <button type='submit'>Odjava</button>
-        </form>
-    </div>
+<div class='center'>
+    <form action='/odjava' method='post'>
+        <button type='submit'>Odjava</button>
+    </form>
+</div>
 
     
+<body>
+    <h2>Rezervirani termini</h2>
+    <table style="width:100%">
+        <tr>
+          <th>Stranka</th>
+          <th>Predmet</th>
+          <th>Lokacija</th>
+          <th>Datum</th>
+          <th>Ura</th>
+        </tr>
+        %for (ime, priimek, predmet, lokacija, datum, ura) in rez_termini:
+            <tr>
+                <td>{{ime}} {{priimek}}</td>
+                <td>{{predmet}}</td>
+                <td>{{lokacija}}</td>
+                <td>{{datum}}</td>
+                <td>{{ura}}</td>
+            </tr>
+        %end
+    </table>
+
+    <form action='/instruktor/vnesi' method='get'>
+        <button type='submit'>Vnesi nov prost termin</button>
+    </form>
+    
+      <h2>Pretekli termini</h2>
+        <table style="width:100%">
+        <tr>
+          <th>Stranka</th>
+          <th>Predmet</th>
+          <th>Lokacija</th>
+          <th>Datum</th>
+          <th>Ura</th>
+        </tr>
+        %for (ime, priimek, predmet, lokacija, datum, ura) in pre_termini:
+            <tr>
+                <td>{{ime}} {{priimek}}</td>
+                <td>{{predmet}}</td>
+                <td>{{lokacija}}</td>
+                <td>{{datum}}</td>
+                <td>{{ura}}</td>
+            </tr>
+        %end
+      </table>
+      
+
+
+</body>
     
 
 </body>
