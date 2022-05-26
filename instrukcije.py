@@ -89,7 +89,7 @@ def prijava_post():
     #print(vloga)
     if vloga == 'stranka':
         redirect(url('/uporabnik'))
-    if vloga == 'instruktor':
+    else:
         redirect(url('/instruktor'))
 
 
@@ -153,6 +153,8 @@ def registracija_post():
     password2 = request.forms.password2
     vloga = request.forms.vloga
 
+  
+
     #preverimo, ce je izbrani username ze zaseden
     cur = baza.cursor()
     cur.execute("SELECT * FROM oseba WHERE uporabnisko_ime=%s", (username,))
@@ -211,7 +213,6 @@ def instruktor_registracija_post():
         if predmet:
             print(predmet)
             cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
-            # NIMAM DOVOLJENJA ZA "PODROCJE"
             baza.commit()
     redirect(url('/instruktor'))
 
@@ -228,7 +229,6 @@ def uporabnik_registracija_post():
     print(letnik)
     cur = baza.cursor()
     cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
-    # tuki tut se nimam dovoljenja
     baza.commit()
     redirect(url('/uporabnik'))
 
@@ -270,6 +270,8 @@ def rezerviraj_get():
     #return 'Nekej se zgodi'
     return template('rezerviraj.html', napaka=None)
 
+
+#zaenkrat se ne doda imen strank, to bom popravila 
 @post('/uporabnik/rezerviraj')
 def rezerviraj_post():
     predmet = request.forms.predmet
@@ -305,15 +307,18 @@ def rezervacija_v_teku():
 
 @get('/instruktor') 
 def instruktor():
-    # username = request.get_cookie('username', secret=skrivnost)
-    # cur_p = baza.cursor()
-    # cur_p.execute("SELECT datum,ura FROM termin LEFT JOIN oseba ON oseba.vloga = instruktor WHERE instruktor='{0}' AND datum>NOW() ".format(username))
-    # rez_termini=cur
-    # cur = baza.cursor()
-    # cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = stranka WHERE instruktor='{0}' AND datum<NOW() ".format(username))
-    # pre_termini=cur
-    return template('instruktor.html', rez_termini=rez_termini, pre_termini=pre_termini)
-
+    username = request.get_cookie('username', secret=skrivnost)
+    cur = baza.cursor()
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
+    rez_termini=cur
+    cur = baza.cursor()
+    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NULL AND datum>NOW()")
+    prosti_termini=cur
+    cur = baza.cursor()
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum<NOW()")
+    pre_termini=cur
+    return template('instruktor.html', rez_termini=rez_termini, prosti_termini=prosti_termini, pre_termini=pre_termini)
+  
 
 @get('/instruktor/vnesi')
 def inst_vnesi_get():
@@ -324,18 +329,7 @@ def inst_vnesi_post():
 
     return 'yay'
 
-@get('/uporabnik') 
-def uporabnik():
-    username = request.get_cookie('username', secret=skrivnost)
-    cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum>NOW() ".format(username))
-    rez_termini=cur
-    cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum<NOW() ".format(username))
-    pre_termini=cur
-    return template('uporabnik.html', rez_termini=rez_termini, pre_termini=pre_termini)
-
-@get('/uporabnik/mojprofil')
+@get('/instruktor/mojprofil')
 def mojprofil():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
@@ -344,32 +338,6 @@ def mojprofil():
 
     return template('profil.html', oseba=cur)
 
-@get('/uporabnik/rezerviraj')
-def rezerviraj_get():
-    #return 'Nekej se zgodi'
-    return template('rezerviraj.html', napaka=None)
-
-@post('/uporabnik/rezerviraj')
-def rezerviraj_post():
-    predmet = request.forms.predmet
-    #print(predmet)
-    datum = request.forms.datum
-    cur = baza.cursor()
-    if predmet != '':
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = '{0}'".format(predmet))
-    else:
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL")
-    return template('prosti_termini.html', podatki=cur)
-
-@post('/uporabnik/rezervacijavteku')
-def rezervacija_v_teku():
-    username = request.get_cookie('username', secret=skrivnost)
-    id = request.forms.id
-    cur = baza.cursor()
-    #print('dosmpride')
-    cur.execute("UPDATE termin SET stranka='{0}' WHERE id_termina = {1}".format(username, id))
-    #print('tud do sem pride')
-    redirect(url('uporabnik'))
 
 
 

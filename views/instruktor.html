@@ -11,16 +11,34 @@
     </div>
 </head>
     
-    
-<div class='center'>
-    <form action='/odjava' method='post'>
-        <button type='submit'>Odjava</button>
-    </form>
-</div>
+
 
     
 <body>
-    <h2>Rezervirani termini</h2>
+    <h2>Prosti termini</h2>
+    <table style="width:100%">
+        <tr>
+          <th>Predmet</th>
+          <th>Lokacija</th>
+          <th>Datum</th>
+          <th>Ura</th>
+        </tr>
+        %for ( predmet, lokacija, datum, ura) in prosti_termini:
+            <tr>
+                <td>{{predmet}}</td>
+                <td>{{lokacija}}</td>
+                <td>{{datum}}</td>
+                <td>{{ura}}</td>
+            </tr>
+        %end
+    </table>
+
+    <form action='/instruktor/vnesi' method='get'>
+        <button type='submit'>Vnesi nov prost termin</button>
+    </form>
+    
+
+    <h2>Prihodnji rezervirani termini</h2>
     <table style="width:100%">
         <tr>
           <th>Stranka</th>
@@ -40,10 +58,7 @@
         %end
     </table>
 
-    <form action='/instruktor/vnesi' method='get'>
-        <button type='submit'>Vnesi nov prost termin</button>
-    </form>
-    
+ 
       <h2>Pretekli termini</h2>
         <table style="width:100%">
         <tr>
