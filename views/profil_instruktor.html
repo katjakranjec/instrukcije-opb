@@ -1,0 +1,42 @@
+% rebase('base.html')
+
+<head>
+    <div class="topleft">
+        <form action='/instruktor' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
+        </form>
+    </div>
+    <div class="topright">
+        <form action='/odjava' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
+        </form>
+    </div>
+</head>
+
+<body>
+    <h2>Moj profil</h2>
+    <table style="width:80%">
+        %for (ime, priimek, telefon, email, uporabnisko_ime) in oseba:
+            <tr>
+                <td>Ime</td>
+                <td>{{ime}}</td>
+            </tr>
+            <tr>
+                <td>Priimek</td>
+                <td>{{priimek}}</td>
+            </tr>
+            <tr>
+                <td>Telefon</td>
+                <td>{{telefon}}</td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td>{{email}}</td>
+            </tr>
+            <tr>
+                <td>Uporabniško ime</td>
+                <td>{{uporabnisko_ime}}</td>
+            </tr>
+        %end
+      </table>
+</body>

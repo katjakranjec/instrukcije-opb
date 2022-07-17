@@ -36,6 +36,9 @@
     <form action='/instruktor/vnesi' method='get'>
         <button type='submit'>Vnesi nov prost termin</button>
     </form>
+
+    <br>
+    <br>
     
 
     <h2>Prihodnji rezervirani termini</h2>
@@ -49,6 +52,7 @@
         </tr>
         %for (ime, priimek, predmet, lokacija, datum, ura) in rez_termini:
             <tr>
+                
                 <td>{{ime}} {{priimek}}</td>
                 <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>

@@ -328,8 +328,11 @@ def inst_vnesi_get():
 def inst_vnesi_post():
     username = request.get_cookie('username', secret=skrivnost)
     datum = request.forms.datum
+    print('AA')
     print(datum)
-    if datum is None:
+    print('AA')
+    
+    if datum == '':
          return template('inst_vnesi.html', napaka="Izberite datum!")
     else: 
         cas = request.forms.cas
@@ -355,12 +358,14 @@ def inst_vnesi_post():
 
 @get('/instruktor/mojprofil')
 def mojprofil():
+    print('do sem pride 1 ')
     username = request.get_cookie('username', secret=skrivnost)
+    print('do sem pride 2')
     cur = baza.cursor()
-    print('do sem pride')
+    print('do sem pride 3 ')
     cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
 
-    return template('profil.html', oseba=cur)
+    return template('profil_instruktor.html', oseba=cur)
 
 
 
