@@ -29,10 +29,12 @@
             <option value="Koper">Koper</option>
         </select>
         
-        % if napaka is None:
-            <div> OK </div>
-          else:
-            <div>{{napaka}}</div>
+        % if napaka == "Termin je ze zaseden":
+            <div>Ta termin ste že vnesli. Vnesite drug termin.</div>
+        % elif napaka == "Izberite datum!":
+            <div>Prosimo, izberite datum.</div>
+        % else:
+            <div></div>
         % end
 
           <br><br>
