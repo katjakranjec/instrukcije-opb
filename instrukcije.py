@@ -328,21 +328,26 @@ def inst_vnesi_get():
 def inst_vnesi_post():
     username = request.get_cookie('username', secret=skrivnost)
     datum = request.forms.datum
-    cas = request.forms.cas
-    predmet = request.forms.predmet
-    lokacija = request.forms.lokacija
-    cur = baza.cursor()
-    cas2 = datetime.strptime(cas, "%H")
-    ura = cas2.strftime("%H:%M:%S")
-    m = cur.execute("SELECT id_termina FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE datum=datum AND ura=ura")
-    if m is not None:
-        print("yikes")
-        print(m)
-        return template('inst_vnesi.html', napaka=None)
+    if datum is None:
+         return template('inst_vnesi.html', napaka="Izberite datum!")
     else: 
+        cas = request.forms.cas
+        predmet = request.forms.predmet
+        lokacija = request.forms.lokacija
         cur = baza.cursor()
-        cur.execute("INSERT INTO termin (instruktor, predmet,lokacija, datum, ura) values (%s, %s, %s, %s, %s)",(username, predmet, lokacija, datum, ura))
-    redirect(url('instruktor'))
+        cas2 = datetime.strptime(cas, "%H")
+        ura = cas2.strftime("%H:%M:%S")
+        m = cur.execute("SELECT * FROM termin WHERE instruktor=%s AND datum=%s AND URA=%s", (username, datum, ura))
+        print(m)
+        if m is not None:
+            print("yikes")
+            print(m)
+            return template('inst_vnesi.html', napaka="Termin je ze zaseden")
+        else: 
+            cur = baza.cursor()
+            cur.execute("INSERT INTO termin (instruktor, predmet, lokacija, datum, ura) values (%s, %s, %s, %s, %s)",(username, predmet, lokacija, datum, ura))
+            baza.commit()
+        redirect(url('instruktor'))
 
 @get('/instruktor/mojprofil')
 def mojprofil():

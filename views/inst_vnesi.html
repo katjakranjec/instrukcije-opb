@@ -28,8 +28,12 @@
             <option value="Kranj">Kranj</option>
             <option value="Koper">Koper</option>
         </select>
-
-       
+        
+        % if napaka is None:
+            <div></div>
+          else:
+            <div>{{napaka}}</div>
+        % end
 
           <br><br>
           <input type="submit" value="Submit">
