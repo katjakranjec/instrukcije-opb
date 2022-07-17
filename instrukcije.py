@@ -328,6 +328,7 @@ def inst_vnesi_get():
 def inst_vnesi_post():
     username = request.get_cookie('username', secret=skrivnost)
     datum = request.forms.datum
+    print(datum)
     if datum is None:
          return template('inst_vnesi.html', napaka="Izberite datum!")
     else: 
@@ -338,8 +339,8 @@ def inst_vnesi_post():
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
         print(str(ura))
-        cur.execute("SELECT count(*) FROM termin WHERE instruktor='{0}'".format(username))
-               #  AND datum=datum AND ura=ura
+        cur.execute("SELECT count(*) FROM termin WHERE instruktor='{0}' AND datum='{1}' AND ura='{2}'".format(username, datum, ura) )
+    
         m, = cur.fetchone()
         print(m)
         if m != 0:

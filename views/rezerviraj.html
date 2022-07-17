@@ -1,4 +1,5 @@
 % rebase('base.html')
+% from datetime import date
 
 <head>
   <div class="topleft">
@@ -16,13 +17,14 @@
 <body>
     <h2>Izberi:</h2>
     <form action="/uporabnik/rezerviraj" method="post">
-        Od:<input type="date" name="od"
-        value="2022-05-26"
-        min="2022-05-26" max="2023-05-22">
+        Od:
+        <input type="date" name="od"
+        value="2022-07-26"
+        min="2022-07-26" max="2023-05-22">
         <br>
         Do:<input type="date" name="do"
-        value="2022-05-26"
-        min="2022-05-26" max="2023-05-22">
+        value="2022-07-26"
+        min="2022-07-26" max="2023-05-22">
         <br>
         Predmet:<select name="predmet">
           <option value="">vsi predmeti</option>

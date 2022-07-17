@@ -1,16 +1,36 @@
 % rebase('base.html')
 
+
+<head><h1>Vnos prostega termina</h1>
+    <div class="topleft">
+        <form action='/instruktor' method='get'>
+            <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
+        </form>
+    </div>
+</head>
+
 <body>
 
-    <div> Vnesite datum in uro termina, ko ste na voljo za inštrukcije.
-    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div> Vnesite datum in uro termina, ko ste na voljo za inštrukcije. </div>
+    <div style="font-size: 20px;"> Dodajte še predmet, ki ga lahko takrat inštruirate in v okolici katerega kraja boste. 
+    </div> 
+    
+
+    <br>
+    <br>
 
     <form action="/instruktor/vnesi" method="post">
         <input type="date" id="datum" name="datum" min="2022-06-01">
-        <select name="cas" id="cas">
+        <select name="cas" id="cas" style="width: max-content">
             % for i in range(7,22):
-                ura = str(i)
-                <option value="{{i}}">{{str(i)}}.00 do {{str(i + 1)}}.00</option>  
+                ura = str(i)20
+                <option value="{{i}}">od {{str(i)}}.00 do {{str(i + 1)}}.00</option>  
             % end          
         </select>
         <select name="predmet" id="predmet">
@@ -29,6 +49,8 @@
             <option value="Koper">Koper</option>
         </select>
         
+        <br>
+        <br>
         % if napaka == "Termin je ze zaseden":
             <div>Ta termin ste že vnesli. Vnesite drug termin.</div>
         % elif napaka == "Izberite datum!":
@@ -37,8 +59,9 @@
             <div></div>
         % end
 
-          <br><br>
-          <input type="submit" value="Submit">
+        <br>
+        <br>
+        <input type="submit" value="Vnesi">
     </form>
          
 
