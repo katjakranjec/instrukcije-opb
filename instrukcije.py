@@ -337,7 +337,10 @@ def inst_vnesi_post():
         cur = baza.cursor()
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
-        m = cur.execute("SELECT * FROM termin WHERE instruktor=%s AND datum=%s AND URA=%s", (username, datum, ura))
+        print(str(ura))
+        cur.execute("SELECT * FROM termin WHERE instruktor='{{username}}'")
+        m = cur
+        # AND datum=%s AND URA=%s", (username, datum, ura)
         print(m)
         if m is not None:
             print("yikes")
