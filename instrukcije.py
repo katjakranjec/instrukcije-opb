@@ -338,9 +338,13 @@ def inst_vnesi_post():
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
         print(str(ura))
-        cur.execute("SELECT * FROM termin WHERE instruktor='{{username}}'")
-        m = cur
-        # AND datum=%s AND URA=%s", (username, datum, ura)
+        cur.execute("SELECT id_termina FROM termin WHERE instruktor='{{username}}'")
+        #  AND datum=datum AND ura=ura
+        m = None
+        try:
+            m, = cur.fetchone()
+        except: 
+            m = None
         print(m)
         if m is not None:
             print("yikes")
