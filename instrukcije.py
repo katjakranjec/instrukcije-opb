@@ -343,7 +343,6 @@ def inst_vnesi_post():
         ura = cas2.strftime("%H:%M:%S")
         print(str(ura))
         cur.execute("SELECT count(*) FROM termin WHERE instruktor='{0}' AND datum='{1}' AND ura='{2}'".format(username, datum, ura) )
-    
         m, = cur.fetchone()
         print(m)
         if m != 0:
@@ -357,14 +356,13 @@ def inst_vnesi_post():
         redirect(url('instruktor'))
 
 @get('/instruktor/mojprofil')
-def mojprofil():
+def mojprofil_instruktor():
     print('do sem pride 1 ')
     username = request.get_cookie('username', secret=skrivnost)
     print('do sem pride 2')
     cur = baza.cursor()
     print('do sem pride 3 ')
     cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
-
     return template('profil_instruktor.html', oseba=cur)
 
 
