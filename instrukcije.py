@@ -338,15 +338,11 @@ def inst_vnesi_post():
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
         print(str(ura))
-        cur.execute("SELECT id_termina FROM termin WHERE instruktor='{{username}}'")
-        #  AND datum=datum AND ura=ura
-        m = None
-        try:
-            m, = cur.fetchone()
-        except: 
-            m = None
+        cur.execute("SELECT count(*) FROM termin WHERE instruktor='{0}'".format(username))
+               #  AND datum=datum AND ura=ura
+        m, = cur.fetchone()
         print(m)
-        if m is not None:
+        if m != 0:
             print("yikes")
             print(m)
             return template('inst_vnesi.html', napaka="Termin je ze zaseden")
