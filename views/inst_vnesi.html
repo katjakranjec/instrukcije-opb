@@ -6,17 +6,16 @@
     </div>
 
     <form action="/instruktor/vnesi" method="post">
-       <input type="date" id="datum" name="datum"
-        min="2022-06-01">
-
+        <input type="date" id="datum" name="datum" min="2022-06-01">
         <select name="cas" id="cas">
-            % for i in range(7,21)
+            % for i in range(7,22):
                 ura = str(i)
-            <option value="{{ura}}">{{ura}}.00</option>            
+                <option value="{{i}}">{{str(i)}}.00 do {{str(i + 1)}}.00</option>  
+            % end          
           </select>
           <br><br>
           <input type="submit" value="Submit">
-        </form>
+    </form>
          
 
         <input value="Registracija" type="submit" /> <br>
