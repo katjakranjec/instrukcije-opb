@@ -23,7 +23,7 @@
           <th>Datum</th>
           <th>Ura</th>
         </tr>
-        %for ( predmet, lokacija, datum, ura) in prosti_termini:
+        %for (predmet, lokacija, datum, ura) in prosti_termini:
             <tr>
                 <td>{{predmet}}</td>
                 <td>{{lokacija}}</td>
@@ -32,6 +32,10 @@
             </tr>
         %end
     </table>
+
+
+    <br>
+    <br>
 
     <form action='/instruktor/vnesi' method='get'>
         <button type='submit'>Vnesi nov prost termin</button>

@@ -293,6 +293,7 @@ def rezervacija_v_teku():
     cur = baza.cursor()
     print(username)
     cur.execute("UPDATE termin SET stranka='{0}' WHERE id_termina = {1}".format(username, id))
+    baza.commit()
     print(id)
     redirect(url('uporabnik'))
 
@@ -309,14 +310,21 @@ def rezervacija_v_teku():
 def instruktor():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
+    cur.execute("SELECT ime, priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum>NOW()".format(username))
+    
+    
+    # oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NULL AND datum>NOW()")
+    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{0}' WHERE stranka IS NULL AND datum>NOW()".format(username))
     prosti_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum<NOW()")
+    cur.execute("SELECT ime,priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum<NOW()".format(username))
+    
+    #oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum<NOW()")
     pre_termini=cur
+    ppp = pre_termini.fetchall()
+    print(ppp)
     return template('instruktor.html', rez_termini=rez_termini, prosti_termini=prosti_termini, pre_termini=pre_termini)
   
 
