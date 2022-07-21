@@ -2,14 +2,14 @@
 
 <head><h1>Prijava</h1>
     <div class="topleft">
-        <form action='/' method='get'>
+        <form action="{{url('index')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
         </form>
     </div>
 </head>
 
 <body>
-    <form action="/prijava" method="post">
+    <form action="{{url('prijava_post')}}" method="post">
         <label for="uporabnisko_ime" >Uporabniško ime:</label> <input name="username" type="text" /> <br>
         <label for="geslo" >Geslo:</label> <input name="password" type="password" /> <br>
         <input value="Prijava" type="submit" />

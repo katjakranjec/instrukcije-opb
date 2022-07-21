@@ -3,12 +3,12 @@
 
 <head>
   <div class="topleft">
-    <form action='/uporabnik' method='get'>
+    <form action="{{url('uporabnik')}}"' method='get'>
         <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
     </form>
   </div>
   <div class="topright">
-      <form action='/odjava' method='get'>
+      <form action="{{url('odjava_get')}}" method='get'>
           <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
       </form>
   </div>
@@ -16,7 +16,7 @@
 
 <body>
     <h2>Izberi:</h2>
-    <form action="/uporabnik/rezerviraj" method="post">
+    <form action="{{url('rezerviraj_post')}}" method="post">
         Od:
         <input type="date" name="od"
         value="2022-07-26"

@@ -3,7 +3,7 @@
 
 <head><h1>Vnos prostega termina</h1>
     <div class="topleft">
-        <form action='/instruktor' method='get'>
+        <form action="{{url('instruktor')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
         </form>
     </div>
@@ -25,7 +25,7 @@
     <br>
     <br>
 
-    <form action="/instruktor/vnesi" method="post">
+    <form action="{{url('inst_vnesi_post')}}" method="post">
         <input type="date" id="datum" name="datum" min="2022-06-01">
         <select name="cas" id="cas" style="width: max-content">
             % for i in range(7,22):

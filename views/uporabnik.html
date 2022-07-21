@@ -2,10 +2,10 @@
 
 <head>
     <div class="topright">
-        <form action='/uporabnik/mojprofil' method='get'>
+        <form action="{{url('mojprofil')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>moj profil</button>
         </form>
-        <form action='/odjava' method='get'>
+        <form action="{{url('odjava_get')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
         </form>
     </div>
@@ -32,7 +32,7 @@
         %end
       </table>
     <br>
-    <form action='/uporabnik/rezerviraj' method='get'>
+    <form action="{{url('rezerviraj_get')}}" method='get'>
         <button type='submit'>rezerviraj nov termin</button>
     </form>
     

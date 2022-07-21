@@ -2,10 +2,10 @@
 
 <head>
     <div class="topright">
-        <form action='/instruktor/mojprofil' method='get'>
+        <form action="{{url('mojprofil_instruktor')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>moj profil</button>
         </form>
-        <form action='/odjava' method='get'>
+        <form action="{{url('odjava_get')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>odjava</button>
         </form>
     </div>
@@ -37,7 +37,7 @@
     <br>
     <br>
 
-    <form action='/instruktor/vnesi' method='get'>
+    <form action="{{url('inst_vnesi_get')}}" method='get'>
         <button type='submit'>Vnesi nov prost termin</button>
     </form>
 

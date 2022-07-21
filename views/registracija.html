@@ -2,7 +2,7 @@
 
 <head><h1>Registracija</h1>
     <div class="topleft">
-        <form action='/' method='get'>
+        <form action="{{url('index')}}" method='get'>
             <button style="font-size:15pt; padding: 1px 1px;" type='submit'>nazaj</button>
         </form>
     </div>
@@ -11,7 +11,7 @@
 <body>
     <br>
     <br>
-<form action="/registracija" method="post">
+<form action="{{url('registracija_post')}}" method="post">
     <label for="ime" >Ime:</label> <input name="ime" type="text" /> <br>
     <label for="priimek" >Priimek:</label> <input name="priimek" type="text" /> <br>
     <label for="email" >E-mail:</label> <input name="email" type="text" /> <br>
