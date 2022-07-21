@@ -28,6 +28,12 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
 ######################################################################
 # ostalo
+# Mapa za statične vire (slike, css, ...)
+static_dir = "./static"
+
+@route("/static/<filename:path>")
+def static(filename):
+    return static_file(filename, root=static_dir)
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
