@@ -29,11 +29,11 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 ######################################################################
 # ostalo
 # Mapa za statične vire (slike, css, ...)
-static_dir = "./static"
+# static_dir = "./static"
 
-@route("/static/<filename:path>")
-def static(filename):
-    return static_file(filename, root=static_dir)
+# @route("/static/<filename:path>")
+# def static(filename):
+#     return static_file(filename, root=static_dir)
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
@@ -330,7 +330,7 @@ def instruktor():
     #oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum<NOW()")
     pre_termini=cur
     ppp = pre_termini.fetchall()
-    print(ppp)
+    # print(ppp)
     return template('instruktor.html', rez_termini=rez_termini, prosti_termini=prosti_termini, pre_termini=pre_termini)
   
 
@@ -342,9 +342,9 @@ def inst_vnesi_get():
 def inst_vnesi_post():
     username = request.get_cookie('username', secret=skrivnost)
     datum = request.forms.datum
-    print('AA')
-    print(datum)
-    print('AA')
+    # print('AA')
+    # print(datum)
+    # print('AA')
     
     if datum == '':
          return template('inst_vnesi.html', napaka="Izberite datum!")
@@ -355,13 +355,13 @@ def inst_vnesi_post():
         cur = baza.cursor()
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
-        print(str(ura))
+        # print(str(ura))
         cur.execute("SELECT count(*) FROM termin WHERE instruktor='{0}' AND datum='{1}' AND ura='{2}'".format(username, datum, ura) )
         m, = cur.fetchone()
-        print(m)
+        # print(m)
         if m != 0:
-            print("yikes")
-            print(m)
+            # print("yikes")
+            # print(m)
             return template('inst_vnesi.html', napaka="Termin je ze zaseden")
         else: 
             cur = baza.cursor()
@@ -371,11 +371,11 @@ def inst_vnesi_post():
 
 @get('/instruktor/mojprofil')
 def mojprofil_instruktor():
-    print('do sem pride 1 ')
+    # print('do sem pride 1 ')
     username = request.get_cookie('username', secret=skrivnost)
-    print('do sem pride 2')
+    # print('do sem pride 2')
     cur = baza.cursor()
-    print('do sem pride 3 ')
+    # print('do sem pride 3 ')
     cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
     return template('profil_instruktor.html', oseba=cur)
 
