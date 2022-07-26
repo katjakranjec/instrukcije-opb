@@ -322,8 +322,9 @@ def instruktor():
     # oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = '{0}' WHERE stranka IS NULL AND datum>NOW()".format(username))
+    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin WHERE instruktor = '{0}' AND stranka IS NULL AND datum>NOW()".format(username))
     prosti_termini=cur
+    # LEFT JOIN oseba ON oseba = uporabnisko_ime 
     cur = baza.cursor()
     cur.execute("SELECT ime,priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum<NOW()".format(username))
     
