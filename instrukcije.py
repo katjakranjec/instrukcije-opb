@@ -27,13 +27,6 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 #debug(True)
 
 ######################################################################
-# ostalo
-# Mapa za statične vire (slike, css, ...)
-# static_dir = "./static"
-
-# @route("/static/<filename:path>")
-# def static(filename):
-#     return static_file(filename, root=static_dir)
 
 def nastaviSporocilo(sporocilo = None):
     # global napakaSporocilo
@@ -44,7 +37,7 @@ def nastaviSporocilo(sporocilo = None):
         response.set_cookie('sporocilo', sporocilo, path="/", secret=skrivnost)
     return staro
 
-def geslo_hash(s):
+def hashGesla(s):
     """Vrni SHA-512 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
        kodirana s to funkcijo."""
     h = hashlib.sha512()
@@ -66,7 +59,7 @@ def prijava_get():
 @post("/prijava")
 def prijava_post():
     username = request.forms.username
-    geslo = request.forms.password
+    geslo = hashGesla(request.forms.password)
     if username is None or geslo is None:
         print('Uporabniško ime in geslo morata biti neprazna') 
         redirect(url('prijava_get'))
@@ -141,8 +134,9 @@ def registracija_post():
 
     
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
+    zgostitev = hashGesla(password)
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
-    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, password))
+    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, zgostitev))
     #print('lalaal')
     baza.commit() 
     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, %s)", (username, vloga)) 
