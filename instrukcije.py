@@ -74,7 +74,7 @@ def prijava_post():
     hgeslo = None
     try: 
         #print('no pa dejmo probat')
-        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = '{0}'".format(username))
+        cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime=%s", (username,))
         hgeslo, = cur.fetchone()
     except:
         hgeslo = None
@@ -90,7 +90,7 @@ def prijava_post():
     response.set_cookie('username', username, path="/", secret=skrivnost)
     #print('do sem pride')
     #preverimo vlogo in ustrezno preusmerimo na profilno stran
-    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = '{0}'".format(username))
+    cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba=%s", (username,))
     vloga, = cur.fetchone()
     #print(vloga)
     if vloga == 'stranka':
@@ -255,7 +255,7 @@ def rezervacija_v_teku():
     id = request.forms.id
     cur = baza.cursor()
     print(username)
-    cur.execute("UPDATE termin SET stranka='{0}' WHERE id_termina = {1}".format(username, id))
+    cur.execute("UPDATE termin SET stranka=%s WHERE id_termina=%s", (username, id))
     baza.commit()
     print(id)
     redirect(url('uporabnik'))
@@ -279,11 +279,11 @@ def instruktor():
     # oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin WHERE instruktor = '{0}' AND stranka IS NULL AND datum>NOW()".format(username))
+    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin WHERE instruktor=%s AND stranka IS NULL AND datum>NOW()", (username,))
     prosti_termini=cur
     # LEFT JOIN oseba ON oseba = uporabnisko_ime 
     cur = baza.cursor()
-    cur.execute("SELECT ime,priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum<NOW()".format(username))
+    cur.execute("SELECT ime,priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor=%s AND stranka IS NOT NULL AND datum<NOW()", (username,))
     
     #oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum<NOW()")
     pre_termini=cur
@@ -314,7 +314,7 @@ def inst_vnesi_post():
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
         # print(str(ura))
-        cur.execute("SELECT count(*) FROM termin WHERE instruktor='{0}' AND datum='{1}' AND ura='{2}'".format(username, datum, ura) )
+        cur.execute("SELECT count(*) FROM termin WHERE instruktor=%s AND datum=%s AND ura=%s", (username, datum, ura))
         m, = cur.fetchone()
         # print(m)
         if m != 0:
@@ -334,7 +334,7 @@ def mojprofil_instruktor():
     # print('do sem pride 2')
     cur = baza.cursor()
     # print('do sem pride 3 ')
-    cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime='{0}'".format(username))
+    cur.execute("SELECT ime,priimek,telefon,email,uporabnisko_ime FROM oseba WHERE uporabnisko_ime=%s", (username,))
     return template('profil_instruktor.html', oseba=cur)
 
 
