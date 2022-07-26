@@ -57,7 +57,7 @@ def geslo_hash(s):
 def index():
     return template('index.html', napaka=None)
 
-#_PRIJAVA_STRANKE______________________________________________
+#_PRIJAVA_________________________________________________________________________
 
 @get("/prijava") 
 def prijava_get():
@@ -94,52 +94,9 @@ def prijava_post():
     vloga, = cur.fetchone()
     #print(vloga)
     if vloga == 'stranka':
-        redirect(url('/uporabnik'))
+        redirect(url('uporabnik'))
     else:
-        redirect(url('/instruktor'))
-
-
-# #___PRIJAVA_INSTRUKTORJA___________________________________
-# 
-
-# get('/prijava_instruktor') 
-# def prijava_instruktor_get():
-#     return template('prijava_instruktor.html', napaka=None)
-
-# @post('/prijava_instruktor')
-# def prijava_instruktor_post():
-#     username = request.forms.username
-#     geslo = request.forms.password
-#     if username is None or geslo is None:
-#         nastaviSporocilo('Uporabniško ime in geslo morata biti neprazna') 
-#         redirect(url('prijava_instruktor_get'))
-#     cur = baza.cursor()
-#     hgeslo = None
-#     try: 
-#         cur.execute("SELECT geslo FROM oseba WHERE uporabnisko_ime = %s", (username, ))
-#         hgeslo, = cur.fetchone()
-#     except:
-#         hgeslo = None
-#     if hgeslo is None:
-#         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna')
-#         redirect(url('prijava_instruktor_get'))
-#         return
-#     if geslo != hgeslo:
-#         nastaviSporocilo('Uporabniško ime ali geslo nista pravilna') 
-#         redirect(url('prijava_instruktor_get'))
-#         return
-#     response.set_cookie('username', username, path="/", secret=skrivnost)
-#     redirect(url('instruktor'))
-
-    
-    # #preverimo vlogo in ustrezno preusmerimo na profilno stran
-    # cur.execute("SELECT vloga FROM vloga_osebe WHERE oseba = %s", (username, ))
-    # vloga, = cur.fetchone()
-    # #print(vloga)
-    # if vloga == 'stranka':
-    #     redirect(url('uporabnik'))
-    # if vloga == 'instruktor':
-
+        redirect(url('instruktor'))
 
 
 # # REGISTRACIJA STRANKE -------------------------------------------
@@ -191,9 +148,9 @@ def registracija_post():
     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, %s)", (username, vloga)) 
     baza.commit()
     if vloga == "instruktor":
-        redirect(url('/registracija/instruktor'))
+        redirect(url('instruktor_registracija_get'))
     else: 
-        redirect(url('/registracija/uporabnik'))
+        redirect(url('uporabnik_registracija_get'))
 
 
 
@@ -220,7 +177,7 @@ def instruktor_registracija_post():
             print(predmet)
             cur.execute("INSERT INTO podrocje (oseba, predmet) VALUES (%s, %s)", (username, predmet)) 
             baza.commit()
-    redirect(url('/instruktor'))
+    redirect(url('instruktor'))
 
 
 @get('/registracija/uporabnik')
@@ -236,7 +193,7 @@ def uporabnik_registracija_post():
     cur = baza.cursor()
     cur.execute("INSERT INTO obiskuje (oseba, letnik) VALUES (%s, %s)", (username, letnik) )
     baza.commit()
-    redirect(url('/uporabnik'))
+    redirect(url('uporabnik'))
 
 
 #__________________________________________________________________________________________________
