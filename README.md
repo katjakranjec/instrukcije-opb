@@ -14,14 +14,7 @@ in si izbere ustreznega.
 
 
 ## ER diagram
-
-![instrukcije-opb2](https://user-images.githubusercontent.com/64911943/161804029-34a84498-e0bc-4749-b6f5-505eea8f08db.png)
-
-
-## Podatki
-
-Nekatere podatke bova pridobili s spletne strani [GenerateData](https://generatedata.com/).
-
+![ER opb](https://user-images.githubusercontent.com/64911943/181298167-c0234fdd-c8dc-4346-b4b7-ae17e4313194.png)
 
 ## Avtorici
 * Katja Kranjec
