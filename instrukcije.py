@@ -117,7 +117,7 @@ def registracija_post():
     upor = cur.fetchone()
     if upor is not None:
         return template('registracija.html',  ime=ime, priimek=priimek, username=username,
-                                email=email, napaka="Uporabniško ime je že zasedeno!")
+                                email=email, napaka="Uporabniško ime je ze zasedeno!")
         
 
     # preverimo, ali se gesli ujemata
@@ -224,15 +224,12 @@ def mojprofil():
 
 @get('/uporabnik/rezerviraj')
 def rezerviraj_get():
-    #return 'Nekej se zgodi'
     return template('rezerviraj.html', napaka=None)
 
 
-#zaenkrat se ne doda imen strank, to bom popravila 
 @post('/uporabnik/rezerviraj')
 def rezerviraj_post():
     predmet = request.forms.predmet
-    #print(predmet)
     od = request.forms.od
     do = request.forms.do
     cur = baza.cursor()
@@ -262,20 +259,13 @@ def instruktor():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     cur.execute("SELECT ime, priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum>NOW()".format(username))
-    
-    # oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
     rez_termini=cur
     cur = baza.cursor()
     cur.execute("SELECT predmet,lokacija,datum,ura FROM termin WHERE instruktor=%s AND stranka IS NULL AND datum>NOW()", (username,))
     prosti_termini=cur
-    # LEFT JOIN oseba ON oseba = uporabnisko_ime 
     cur = baza.cursor()
     cur.execute("SELECT ime,priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor=%s AND stranka IS NOT NULL AND datum<NOW()", (username,))
-    
-    #oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum<NOW()")
     pre_termini=cur
-    ppp = pre_termini.fetchall()
-    # print(ppp)
     return template('instruktor.html', rez_termini=rez_termini, prosti_termini=prosti_termini, pre_termini=pre_termini)
   
 
@@ -300,13 +290,9 @@ def inst_vnesi_post():
         cur = baza.cursor()
         cas2 = datetime.strptime(cas, "%H")
         ura = cas2.strftime("%H:%M:%S")
-        # print(str(ura))
         cur.execute("SELECT count(*) FROM termin WHERE instruktor=%s AND datum=%s AND ura=%s", (username, datum, ura))
         m, = cur.fetchone()
-        # print(m)
         if m != 0:
-            # print("yikes")
-            # print(m)
             return template('inst_vnesi.html', napaka="Termin je ze zaseden")
         else: 
             cur = baza.cursor()
