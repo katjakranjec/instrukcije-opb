@@ -131,8 +131,8 @@ def registracija_post():
         return template("registracija.html", ime=ime, priimek=priimek, username=username,
                                 email=email, napaka="Geslo mora imeti vsaj 4 znake!")
         
+    # on kr takoj to napako z geslom pokaze, to ni najbols
 
-    
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
     zgostitev = hashGesla(password)
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
