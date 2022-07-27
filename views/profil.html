@@ -18,7 +18,7 @@
     <br>
     <br>
     <table style="width:80%">
-        %for (ime, priimek, telefon, email, uporabnisko_ime) in oseba:
+        %for (ime, priimek, telefon, email, uporabnisko_ime, letnik) in oseba:
             <tr>
                 <td>Ime</td>
                 <td>{{ime}}</td>
@@ -35,6 +35,12 @@
                 <td>E-mail</td>
                 <td>{{email}}</td>
             </tr>
+                % if letnik != "NULL":
+                <tr>
+                    <td>Letnik šolanja</td>
+                    <td>{{letnik}}</td>
+                </tr>
+                % end
             <tr>
                 <td>Uporabniško ime</td>
                 <td>{{uporabnisko_ime}}</td>

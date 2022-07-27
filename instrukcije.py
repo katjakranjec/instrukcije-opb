@@ -218,7 +218,7 @@ def mojprofil():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     print('do sem pride')
-    cur.execute("SELECT ime, priimek, telefon, email, uporabnisko_ime FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime='{0}'".format(username))
+    cur.execute("SELECT ime, priimek, telefon, email, uporabnisko_ime, letnik FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime='{0}'".format(username))
 
     return template('profil.html', oseba=cur)
 
@@ -256,19 +256,12 @@ def rezervacija_v_teku():
 
 #_________________________________________________________________________________________________
 # STRANI INŠTRUKTORJA
-# zaenkrat nedokoncano
-
-# on mora met proste termine
-# rezervirane termine
-# pretekle termine
-
 
 @get('/instruktor') 
 def instruktor():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     cur.execute("SELECT ime, priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum>NOW()".format(username))
-    
     
     # oseba ON oseba.uporabnisko_ime = '{{username}}' WHERE stranka IS NOT NULL AND datum>NOW()")
     rez_termini=cur
@@ -294,9 +287,9 @@ def inst_vnesi_get():
 def inst_vnesi_post():
     username = request.get_cookie('username', secret=skrivnost)
     datum = request.forms.datum
-    # print('AA')
-    # print(datum)
-    # print('AA')
+   
+
+   # --> DODA LAHKO SAMO PREDMETE, KI JIH UCI
     
     if datum == '':
          return template('inst_vnesi.html', napaka="Izberite datum!")
