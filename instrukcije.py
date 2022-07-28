@@ -272,19 +272,19 @@ def instruktor():
 @get('/instruktor/vnesi')
 def inst_vnesi_get():
     # to je zdej na novo, ampak ne dela
-    # username = request.get_cookie('username', secret=skrivnost)
-    # cur = baza.cursor()
-    # cur.execute("SELECT predmet FROM podrocje WHERE oseba=%s", (username,)) 
-    # print('Yay')
-    # predmeti = cur.fetchall()
-    # seznam = []
-    # for p in predmeti:
-    #     print(p[0])
-    #     seznam.append(p[0])
-    # print(seznam)
-    # return template('inst_vnesi.html', seznam=seznam, napaka=None)
+    username = request.get_cookie('username', secret=skrivnost)
+    cur = baza.cursor()
+    cur.execute("SELECT predmet FROM podrocje WHERE oseba=%s", (username,)) 
+    print('Yay')
+    predmeti = cur.fetchall()
+    seznam = []
+    for p in predmeti:
+        print(p[0])
+        seznam.append(p[0])
+    print(seznam)
+    return template('inst_vnesi.html', seznam=seznam, napaka=None)
 
-    return template('inst_vnesi.html', napaka=None)
+    #return template('inst_vnesi.html', napaka=None)
 
 
 @post('/instruktor/vnesi')

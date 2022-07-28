@@ -34,15 +34,28 @@
             % end          
         </select>
         <select name="predmet" id="predmet">
-
-            <option value="slo">Slovenščina</option>
-            <option value="mat">Matemaitka</option>
-            <option value="ang">Angleščina</option>
-            <option value="bio">Biologija</option>
-            <option value="kem">Kemija</option>
-            <option value="fiz">Fizika</option>
-
-
+            % for predmet in seznam:
+                % if predmet == "slo":
+                    <option value="slo">Slovenščina</option>
+                %end
+                % if predmet == "mat":
+                    <option value="mat">Matematika</option>
+                % end
+                % if predmet == "ang":
+                    <option value="ang">Angleščina</option>
+                % end
+                % if predmet == "bio":
+                    <option value="bio">Biologija</option>
+                % end
+                % if predmet == "kem":
+                    <option value="kem">Kemija</option>
+                % end
+                % if predmet == "fiz":
+                    <option value="fiz">Fizika</option>
+                % end
+                <!-- else:
+                    <div></div> -->
+            % end
         </select>  
 
         <select name="lokacija" id="lokacija">
