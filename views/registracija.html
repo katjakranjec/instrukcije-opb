@@ -30,13 +30,13 @@
 </form>
 <br>
 % if napaka == "Uporabniško ime je ze zasedeno!":
-    <div style="border-style: solid; border-color: red;">Uporabniško ime je že zsaedeno. Prosimo, izberite drugo
+    <div style="border-style: solid; border-color: red;">Uporabniško ime je že zasedeno. Prosimo, izberite drugo
         uporabniško ime!
     </div>
 % elif napaka == "Gesli se ne ujemata!":
     <div style="border-style: solid; border-color: red;">Gesli se ne ujemata!</div>
 % elif napaka == "Geslo mora imeti vsaj 4 znake!":
-    <div style="border-style: solid; border-color: red;">Geslo je prekratko. Geslo mora imeti vsaj 4 znake!</div>
+    <div style="border-style: solid; border-color: red;">Geslo mora imeti vsaj 4 znake!</div>
 % else:
     <div></div>
 % end
