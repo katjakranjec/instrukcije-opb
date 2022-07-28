@@ -291,12 +291,22 @@ def inst_vnesi_get():
 def inst_vnesi_post():
     username = request.get_cookie('username', secret=skrivnost)
     datum = request.forms.datum
+
+    cur = baza.cursor()
+    cur.execute("SELECT predmet FROM podrocje WHERE oseba=%s", (username,)) 
+    print('Yay')
+    predmeti = cur.fetchall()
+    seznam = []
+    for p in predmeti:
+        print(p[0])
+        seznam.append(p[0])
+    print(seznam)
    
 
    # --> DODA LAHKO SAMO PREDMETE, KI JIH UCI
     
     if datum == '':
-         return template('inst_vnesi.html', napaka="Izberite datum!")
+         return template('inst_vnesi.html', seznam=seznam, napaka="Izberite datum!")
     else: 
         cas = request.forms.cas
         predmet = request.forms.predmet
@@ -307,7 +317,7 @@ def inst_vnesi_post():
         cur.execute("SELECT count(*) FROM termin WHERE instruktor=%s AND datum=%s AND ura=%s", (username, datum, ura))
         m, = cur.fetchone()
         if m != 0:
-            return template('inst_vnesi.html', napaka="Termin je ze zaseden")
+            return template('inst_vnesi.html', seznam=seznam, napaka="Termin je ze zaseden")
         else: 
             cur = baza.cursor()
             cur.execute("INSERT INTO termin (instruktor, predmet, lokacija, datum, ura) values (%s, %s, %s, %s, %s)",(username, predmet, lokacija, datum, ura))
