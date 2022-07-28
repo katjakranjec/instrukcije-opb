@@ -149,7 +149,7 @@ def registracija_post():
 
 
 #_
-# Registracija
+# Registracija instruktorja
 
 @get('/registracija/instruktor')
 def instruktor_registracija_get():
@@ -166,6 +166,9 @@ def instruktor_registracija_post():
     fiz = request.forms.fiz
     kem = request.forms.kem
     cur = baza.cursor()
+    print([slo, mat, ang, bio, fiz, kem])
+    if [slo, mat, ang, bio, fiz, kem] == ['', '', '', '', '', '']:
+        return template('instruktor_registracija.html', napaka='izberi vsaj en predmet')
     for predmet in [slo, mat, ang, bio, fiz, kem]:
         if predmet:
             print(predmet)

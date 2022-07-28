@@ -16,8 +16,17 @@
         <input type="checkbox" id="fiz" name="fiz" value="fiz">
         <label for="fiz">Fizika</label><br> 
         <input type="checkbox" id="kem" name="kem" value="kem">
-        <label for="kem">Kemija</label><br> 
+        <label for="kem">Kemija</label>
+        <br> 
+        <br>
         <input value="Registracija" type="submit" /> <br>
     </form>
+    <br>
+    <br>
+
+    % if napaka == "izberi vsaj en predmet":
+        <div style="border-style: solid; border-color: red;">Izberite vsaj en predmet, ki ga lahko
+        inštruirate! </div>
+    % end
     
 </body>
