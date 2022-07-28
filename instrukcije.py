@@ -206,10 +206,10 @@ def odjava_get():
 def uporabnik():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum>NOW() ".format(username))
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka=%s AND datum>NOW()", (username,))
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka='{0}' AND datum<NOW() ".format(username))
+    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka=%s AND datum<NOW() ", (username,))
     pre_termini=cur
     return template('uporabnik.html', rez_termini=rez_termini, pre_termini=pre_termini)
 
@@ -218,7 +218,7 @@ def mojprofil():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     print('do sem pride')
-    cur.execute("SELECT ime, priimek, telefon, email, uporabnisko_ime, letnik FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime='{0}'".format(username))
+    cur.execute("SELECT ime, priimek, telefon, email, uporabnisko_ime, letnik FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime=%s", (username,))
 
     return template('profil.html', oseba=cur)
 
@@ -234,9 +234,9 @@ def rezerviraj_post():
     do = request.forms.do
     cur = baza.cursor()
     if predmet != '':
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = '{0}' AND datum>'{1}' AND datum<'{2}'".format(predmet, od, do))
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = %s AND datum>%s AND datum<%s",(predmet, od, do))
     else:
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND datum>'{0}' AND datum<'{1}'".format(od, do))
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND datum>%s AND datum<%s", (od, do))
     return template('prosti_termini.html', podatki=cur)
 
 @post('/uporabnik/rezervacijavteku')
@@ -258,7 +258,7 @@ def rezervacija_v_teku():
 def instruktor():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT ime, priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = '{0}' AND stranka IS NOT NULL AND datum>NOW()".format(username))
+    cur.execute("SELECT ime, priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = %s AND stranka IS NOT NULL AND datum>NOW()", (username,))
     rez_termini=cur
     cur = baza.cursor()
     cur.execute("SELECT predmet,lokacija,datum,ura FROM termin WHERE instruktor=%s AND stranka IS NULL AND datum>NOW()", (username,))
