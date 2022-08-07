@@ -240,9 +240,9 @@ def rezerviraj_post():
     do = request.forms.do
     cur = baza.cursor()
     if predmet != '':
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = %s AND datum>%s AND datum<%s",(predmet, od, do))
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = %s AND datum>%s AND datum<%s AND datum>NOW()",(predmet, od, do))
     else:
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND datum>%s AND datum<%s", (od, do))
+        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND datum>%s AND datum<%s AND datum>NOW()", (od, do))
     return template('prosti_termini.html', podatki=cur)
 
 @post('/uporabnik/rezervacijavteku')
