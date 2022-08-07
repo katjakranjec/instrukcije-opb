@@ -26,7 +26,7 @@
     <br>
 
     <form action="{{url('inst_vnesi_post')}}" method="post">
-        <input type="date" id="datum" name="datum" min="2022-06-01">
+        <input type="date" id="datum" name="datum" value={{danes}} min={{danes}}>
         <select name="cas" id="cas" style="width: max-content">
             % for i in range(7,22):
                 ura = str(i)20

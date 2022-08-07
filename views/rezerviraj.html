@@ -19,12 +19,12 @@
     <form action="{{url('rezerviraj_post')}}" method="post">
         Od:
         <input type="date" name="od"
-        value="2022-07-26"
-        min="2022-07-26" max="2023-05-22">
+        value={{danes}}
+        min={{danes}}>
         <br>
         Do:<input type="date" name="do"
-        value="2022-07-26"
-        min="2022-07-26" max="2023-05-22">
+        value={{danes}}
+        min={{danes}}>
         <br>
         Predmet:<select name="predmet">
           <option value="">vsi predmeti</option>
