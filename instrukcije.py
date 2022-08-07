@@ -16,7 +16,7 @@ psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
 
 import os
 import hashlib
-from datetime import date
+from datetime import date, timedelta
 
 skrivnost="NaJsKrIvNoStNeJsAsKrIvNoSt"
 
@@ -228,9 +228,9 @@ def mojprofil():
 
 @get('/uporabnik/rezerviraj')
 def rezerviraj_get():
-    danes = date.today()
-    datum = danes.strftime("%Y-%m-%d")
-    return template('rezerviraj.html', danes=datum, napaka=None)
+    jutri = date.today()+timedelta(days=1)
+    datum = jutri.strftime("%Y-%m-%d")
+    return template('rezerviraj.html', jutri=datum, napaka=None)
 
 
 @post('/uporabnik/rezerviraj')
@@ -288,9 +288,9 @@ def inst_vnesi_get():
         print(p[0])
         seznam.append(p[0])
     print(seznam)
-    danes = date.today()
-    datum = danes.strftime("%Y-%m-%d")
-    return template('inst_vnesi.html', seznam=seznam, danes=datum, napaka=None)
+    jutri = date.today()+timedelta(days=1)
+    datum = jutri.strftime("%Y-%m-%d")
+    return template('inst_vnesi.html', seznam=seznam, jutri=datum, napaka=None)
 
     #return template('inst_vnesi.html', napaka=None)
 
