@@ -137,7 +137,10 @@ def registracija_post():
     #ce pridemo, do sem, je vse uredu in lahko vnesemo zahtevek v bazo
     zgostitev = hashGesla(password)
     response.set_cookie('username', username, path="/", secret=skrivnost) #vemo, da je oseba registrirana in jo kar prijavimo
-    cur.execute("INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) VALUES (%s, %s, %s, %s, %s, %s)", (ime, priimek, telefon, email, username, zgostitev))
+    cur.execute("""
+    INSERT INTO oseba (ime, priimek, telefon, email, uporabnisko_ime, geslo) 
+    VALUES (%s, %s, %s, %s, %s, %s)
+    """, (ime, priimek, telefon, email, username, zgostitev))
     #print('lalaal')
     baza.commit() 
     cur.execute("INSERT INTO vloga_osebe (oseba, vloga) VALUES (%s, %s)", (username, vloga)) 
@@ -210,10 +213,22 @@ def odjava_get():
 def uporabnik():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka=%s AND datum>NOW()", (username,))
+    cur.execute("""
+    SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura 
+    FROM termin 
+    LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor 
+    WHERE stranka=%s AND datum>NOW() 
+    ORDER BY datum ASC, ura ASC
+    """, (username,))
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka=%s AND datum<NOW() ", (username,))
+    cur.execute("""
+    SELECT oseba.ime,oseba.priimek,predmet,lokacija,datum,ura 
+    FROM termin 
+    LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor 
+    WHERE stranka=%s AND datum<NOW() 
+    ORDER BY datum ASC, ura ASC
+    """, (username,))
     pre_termini=cur
     return template('uporabnik.html', rez_termini=rez_termini, pre_termini=pre_termini)
 
@@ -222,7 +237,12 @@ def mojprofil():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
     print('do sem pride')
-    cur.execute("SELECT ime, priimek, telefon, email, uporabnisko_ime, letnik FROM oseba LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime WHERE uporabnisko_ime=%s", (username,))
+    cur.execute("""
+    SELECT ime, priimek, telefon, email, uporabnisko_ime, letnik 
+    FROM oseba 
+    LEFT JOIN obiskuje ON obiskuje.oseba = oseba.uporabnisko_ime 
+    WHERE uporabnisko_ime=%s
+    """, (username,))
 
     return template('profil.html', oseba=cur)
 
@@ -240,9 +260,21 @@ def rezerviraj_post():
     do = request.forms.do
     cur = baza.cursor()
     if predmet != '':
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND predmet = %s AND datum>%s AND datum<%s AND datum>NOW()",(predmet, od, do))
+        cur.execute("""
+        SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura 
+        FROM termin 
+        LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor 
+        WHERE stranka IS NULL AND predmet = %s AND datum>=%s AND datum<=%s AND datum>NOW() 
+        ORDER BY datum ASC, ura ASC
+        """,(predmet, od, do))
     else:
-        cur.execute("SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor WHERE stranka IS NULL AND datum>%s AND datum<%s AND datum>NOW()", (od, do))
+        cur.execute("""
+        SELECT id_termina,oseba.ime,oseba.priimek,predmet,lokacija,datum,ura 
+        FROM termin 
+        LEFT JOIN oseba ON oseba.uporabnisko_ime = instruktor 
+        WHERE stranka IS NULL AND datum>=%s AND datum<=%s AND datum>NOW() 
+        ORDER BY datum ASC, ura ASC
+        """, (od, do))
     return template('prosti_termini.html', podatki=cur)
 
 @post('/uporabnik/rezervacijavteku')
@@ -264,13 +296,30 @@ def rezervacija_v_teku():
 def instruktor():
     username = request.get_cookie('username', secret=skrivnost)
     cur = baza.cursor()
-    cur.execute("SELECT ime, priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor = %s AND stranka IS NOT NULL AND datum>NOW()", (username,))
+    cur.execute("""
+    SELECT ime, priimek,predmet,lokacija,datum,ura 
+    FROM termin 
+    LEFT JOIN oseba ON stranka = uporabnisko_ime 
+    WHERE instruktor = %s AND stranka IS NOT NULL AND datum>NOW() 
+    ORDER BY datum ASC, ura ASC
+    """, (username,))
     rez_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT predmet,lokacija,datum,ura FROM termin WHERE instruktor=%s AND stranka IS NULL AND datum>NOW()", (username,))
+    cur.execute("""
+    SELECT predmet,lokacija,datum,ura 
+    FROM termin 
+    WHERE instruktor=%s AND stranka IS NULL AND datum>NOW() 
+    ORDER BY datum ASC, ura ASC
+    """, (username,))
     prosti_termini=cur
     cur = baza.cursor()
-    cur.execute("SELECT ime,priimek,predmet,lokacija,datum,ura FROM termin LEFT JOIN oseba ON stranka = uporabnisko_ime WHERE instruktor=%s AND stranka IS NOT NULL AND datum<NOW()", (username,))
+    cur.execute("""
+    SELECT ime,priimek,predmet,lokacija,datum,ura 
+    FROM termin 
+    LEFT JOIN oseba ON stranka = uporabnisko_ime 
+    WHERE instruktor=%s AND stranka IS NOT NULL AND datum<NOW() 
+    ORDER BY datum DESC, ura DESC
+    """, (username,))
     pre_termini=cur
     return template('instruktor.html', rez_termini=rez_termini, prosti_termini=prosti_termini, pre_termini=pre_termini)
   
@@ -328,7 +377,10 @@ def inst_vnesi_post():
             return template('inst_vnesi.html', seznam=seznam, napaka="Termin je ze zaseden")
         else: 
             cur = baza.cursor()
-            cur.execute("INSERT INTO termin (instruktor, predmet, lokacija, datum, ura) values (%s, %s, %s, %s, %s)",(username, predmet, lokacija, datum, ura))
+            cur.execute("""
+            INSERT INTO termin (instruktor, predmet, lokacija, datum, ura) 
+            VALUES (%s, %s, %s, %s, %s)
+            """,(username, predmet, lokacija, datum, ura))
             baza.commit()
         redirect(url('instruktor'))
 
